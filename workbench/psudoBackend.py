@@ -30,13 +30,13 @@ velocities = myVelocityRNNSet.sample()# get a list of samples
 noteIdx = 0 # something to increment
 # iterate
 for val in rhythms:
-    if val<0:
-        # if our val is negative, it gets paired with a note_on event (note on takes place after a rest, generally)
-        track.append(Message('note_on', note=notes[noteIdx], velocity=127, time=val*-1)) # set the note and make it positive
-    if val>0:
-        # if our val is positive, it gets paired with a note_off event of the same note that just passed
-        track.append(Message('note_off', note=notes[noteIdx], velocity=velocities[noteIdx], time=val))
-        noteIdx += 1 # now we increment
+  if val<0:
+    # if our val is negative, it gets paired with a note_on event (note on takes place after a rest, generally)
+    track.append(Message('note_on', note=notes[noteIdx], velocity=127, time=val*-1)) # set the note and make it positive
+  if val>0:
+    # if our val is positive, it gets paired with a note_off event of the same note that just passed
+    track.append(Message('note_off', note=notes[noteIdx], velocity=velocities[noteIdx], time=val))
+    noteIdx += 1 # now we increment
 
 # when we're done with the rhythms, we save. This means we have to be sure the notes outnumber the rhythms, OR that if we run out of notes,
 # we poll myNoteRNN again for more notes.
