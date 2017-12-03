@@ -193,11 +193,11 @@ def read_time_series(filepath):
   time_series = list(map(int, time_series.split(" "))) # split and convert to integers
 
   tempo = time_series[0] # get the tempo in ticks
-  ticks_per_beat = time_series[1] # get the ticks_per_beat
-  numerator = time_series[2]
-  denominator = time_series[3]
-  clocks_per_click = time_series[4]
-  notated_32nd_notes_per_beat = time_series[5]
+  numerator = time_series[1]
+  denominator = time_series[2]
+  clocks_per_click = time_series[3]
+  notated_32nd_notes_per_beat = time_series[4]
+  ticks_per_beat = time_series[5] # get the ticks_per_beat
 
   time_series = time_series[10:] # filter out the header
   time_series_file.close() # close the file
@@ -209,24 +209,41 @@ def read_time_series(filepath):
   info['notated_32nd_notes_per_beat'] = notated_32nd_notes_per_beat
   return info
 
-
-def time_series_to_midifile(time_series, tempo, ticks_per_beat, out_path):
+def time_series_to_midifile(time_series, tempo, ticks_per_beat, time_signature, out_path):
   midifile = MidiFile() # create the file
   track = MidiTrack() # create a track
   midifile.tracks.append(track) # append the track to the file
   prev_dur = None
 
   track.append(MetaMessage('set_tempo', tempo=tempo))
-  track.append(MetaMessage('time_signature', numerator=3, denominator=4, clocks_per_click=24, notated_32nd_notes_per_beat=8, time=0))
+  track.append(MetaMessage('time_signature', numerator=time_signature.get('numerator'), \
+   denominator=time_signature.get('denominator'), \
+   clocks_per_click=time_signature.get('clocks_per_click'), \
+   notated_32nd_notes_per_beat=time_signature.get('notated_32nd_notes_per_beat'), time=0))
 
   for note, group in groupby(time_series):
     if note < 0: # it's a rest so only remember how long it is
       prev_dur = len(list(group))
     else: # else it's a note
-      message = Message('note_on', note=note, velocity=64, time=prev_dur) # note on
+      message = Message('note_on', note=note, velocity=100, time=prev_dur) # note on
       track.append(message)
       message = Message('note_off', note=note, velocity=127, time=len(list(group))) # note off
       track.append(message)
       prev_dur = len(list(group)) # set the prev_dur
 
   midifile.save(out_path) # save it when we're done
+
+def extract_rhythm_from_time_series(time_series):
+  rhythms = []
+  for note, group in groupby(time_series):
+    if note>=0:
+      rhythms.append(len(list(group)))
+    else:
+      length = len(list(group))
+      length = length * -1
+      rhythms.append(length)
+  return rhythms
+
+def extract_notes_from_time_series(time_series):
+  notes = [note for note, group in groupby(time_series)]
+  return notes
