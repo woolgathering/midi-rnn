@@ -1,6 +1,7 @@
 # parse a MIDI file into vectors of equal length for pitch, rhythm, and velocity
-from mido import MidiFile
+from mido import Message, MidiFile, MidiTrack, MetaMessage
 import numpy as np
+from itertools import groupby
 
 # only works with monophonic instruments. Returns an matrix
 def simple_parse_midi(midifile, trackNum, tempo):
@@ -94,6 +95,12 @@ def get_rhythm(time, ticks_per_beat):
 def make_ticks(rhythm, ticks_per_beat):
     return(rhythm*ticks_per_beat)
 
+def get_time_signature(midifile):
+  for track in midifile.tracks:
+    for msg in track:
+      if msg.type=='time_signature':
+        return {'numerator': msg.numerator, 'denominator': msg.denominator, 'clocks_per_click': msg.clocks_per_click, 'notated_32nd_notes_per_beat': msg.notated_32nd_notes_per_beat}
+
 # check key
 def get_key(midifile):
   for track in midifile.tracks:
@@ -126,34 +133,100 @@ def get_key(midifile):
     return (key) # return the key
 
 
-def make_time_series(midifile, out_path):
-  # midifile.ticks_per_beat
+def make_time_series(midifile, track_num, out_path):
   time_series = [] # an empty list
   this_file = open(out_path, "w") # open a file for writing
+  time_signature = get_time_signature(midifile)
 
   # write a header
   this_file.write(str(get_tempo(midifile))) # write the get_tempo
   this_file.write(" ") # a space
+
+  this_file.write(str(time_signature.get('numerator')))
+  this_file.write(" ")
+  this_file.write(str(time_signature.get('denominator')))
+  this_file.write(" ")
+  this_file.write(str(time_signature.get('clocks_per_click')))
+  this_file.write(" ")
+  this_file.write(str(time_signature.get('notated_32nd_notes_per_beat')))
+  this_file.write(" ")
   this_file.write(str(midifile.ticks_per_beat)) # ticks per beat
   this_file.write(" ") # a space
-  this_file.write("0 0 0 0 ") # four zeros
+  this_file.write("0 0 0 0") # four zeros
 
-  for track in midifile.tracks:
-    for i, msg in enumerate(track):
-
+  for track in midifile.tracks[track_num]:
+    try:
+      for msg in track:
+        # it's a rest!
+        if msg.type=="note_on":
+          # write msg.time number of 'samples'
+          for _ in range(msg.time):
+            this_file.write(" ") # a space
+            this_file.write(str(-1)) # a rest is -1
+        # it's a note!
+        if msg.type=="note_off":
+          for _ in range(msg.time):
+            this_file.write(" ") # a space
+            this_file.write(str(msg.note)) # the note number
+    except TypeError:
+      # this is for files that aren't organized into tracks... Like the Jazzomat stuff
+      msg = track
       # it's a rest!
       if msg.type=="note_on":
         # write msg.time number of 'samples'
         for _ in range(msg.time):
-          this_file.write(str(-1)) # a rest is -1
           this_file.write(" ") # a space
-
+          this_file.write(str(-1)) # a rest is -1
       # it's a note!
       if msg.type=="note_off":
         for _ in range(msg.time):
-          this_file.write(str(msg.note))
           this_file.write(" ") # a space
+          this_file.write(str(msg.note)) # the note number
 
-  this_file.close
+  this_file.close # close the file
+  return out_path # return the out_path
 
-  return (out_path) # return the out_path
+# read a file of time_series
+def read_time_series(filepath):
+  time_series_file = open(filepath, "r") # read the file in
+  time_series = time_series_file.readline() # read in the file; it's just one line
+  time_series = list(map(int, time_series.split(" "))) # split and convert to integers
+
+  tempo = time_series[0] # get the tempo in ticks
+  ticks_per_beat = time_series[1] # get the ticks_per_beat
+  numerator = time_series[2]
+  denominator = time_series[3]
+  clocks_per_click = time_series[4]
+  notated_32nd_notes_per_beat = time_series[5]
+
+  time_series = time_series[10:] # filter out the header
+  time_series_file.close() # close the file
+  # return a dict with info
+  info = {'tempo': tempo, 'ticks_per_beat': ticks_per_beat, 'time_series': time_series}
+  info['numerator'] = numerator
+  info['denominator'] = denominator
+  info['clocks_per_click'] = clocks_per_click
+  info['notated_32nd_notes_per_beat'] = notated_32nd_notes_per_beat
+  return info
+
+
+def time_series_to_midifile(time_series, tempo, ticks_per_beat, out_path):
+  midifile = MidiFile() # create the file
+  track = MidiTrack() # create a track
+  midifile.tracks.append(track) # append the track to the file
+  prev_dur = None
+
+  track.append(MetaMessage('set_tempo', tempo=tempo))
+  track.append(MetaMessage('time_signature', numerator=3, denominator=4, clocks_per_click=24, notated_32nd_notes_per_beat=8, time=0))
+
+  for note, group in groupby(time_series):
+    if note < 0: # it's a rest so only remember how long it is
+      prev_dur = len(list(group))
+    else: # else it's a note
+      message = Message('note_on', note=note, velocity=64, time=prev_dur) # note on
+      track.append(message)
+      message = Message('note_off', note=note, velocity=127, time=len(list(group))) # note off
+      track.append(message)
+      prev_dur = len(list(group)) # set the prev_dur
+
+  midifile.save(out_path) # save it when we're done
