@@ -133,7 +133,7 @@ def get_key(midifile):
     return (key) # return the key
 
 
-def make_time_series(midifile, track_num, out_path):
+def make_time_series(midifile, track_num, out_path, transpose=0):
   time_series = [] # an empty list
   this_file = open(out_path, "w") # open a file for writing
   time_signature = get_time_signature(midifile)
@@ -167,7 +167,7 @@ def make_time_series(midifile, track_num, out_path):
         if msg.type=="note_off":
           for _ in range(msg.time):
             this_file.write(" ") # a space
-            this_file.write(str(msg.note)) # the note number
+            this_file.write(str(msg.note+transpose)) # the note number and the transposition
     except TypeError:
       # this is for files that aren't organized into tracks... Like the Jazzomat stuff
       msg = track
@@ -209,13 +209,27 @@ def read_time_series(filepath):
   info['notated_32nd_notes_per_beat'] = notated_32nd_notes_per_beat
   return info
 
+def normalize_time_series(time_series, clocks_per_click=24):
+  # this is an important function! Normalize the time series to a common clocks per click and notated_32nd_notes_per_beat
+
+  notes = extract_notes_from_time_series(time_series)
+  rhythms = extract_rhythm_from_time_series(time_series)
+  factor = clocks_per_click/24
+  tmp_time_series = []
+
+  for i, rhythm in enumerate(rhythms):
+    for _ in round(rhythm*factor):
+      tmp_time_series.append(notes[i])
+
+  return tmp_time_series
+
 def time_series_to_midifile(time_series, tempo, ticks_per_beat, time_signature, out_path):
   midifile = MidiFile() # create the file
   track = MidiTrack() # create a track
   midifile.tracks.append(track) # append the track to the file
   prev_dur = None
 
-  track.append(MetaMessage('set_tempo', tempo=tempo))
+  track.append(MetaMessage('set_tempo', tempo=int(tempo)))
   track.append(MetaMessage('time_signature', numerator=time_signature.get('numerator'), \
    denominator=time_signature.get('denominator'), \
    clocks_per_click=time_signature.get('clocks_per_click'), \
@@ -241,9 +255,26 @@ def extract_rhythm_from_time_series(time_series):
     else:
       length = len(list(group))
       length = length * -1
-      rhythms.append(length)
+      rhythms.append(length) # rests are negative values
   return rhythms
 
 def extract_notes_from_time_series(time_series):
   notes = [note for note, group in groupby(time_series)]
   return notes
+
+def combine_notes_and_rhythm(notes, rhythms):
+  time_series = []
+  # go through the notes and attach them to rhythms
+  for i, note in enumerate(notes):
+    try:
+      rhythm = rhythms[i]
+      if note>0 and rhythm>0:
+        for _ in range(rhythm):
+          time_series.append(note) # write in the note
+      elif rhythm<0:
+        for _ in range(rhythm):
+          time_series.append(-1) # write in a rest
+    except IndexError:
+      print ("Too many notes for rhythms. Wrapping up...")
+
+  return time_series
