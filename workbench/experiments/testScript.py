@@ -16,25 +16,7 @@ print(parsed[0])
 
 features_to_midi(parsed, get_tempo(midifile), midifile.ticks_per_beat, 'midi/data/resynth/fromParsed.mid')
 
-print("a"+" "+"space")
 
-# print (abs(-1))
-
-#
-# sig = get_key(mid)
-# print(sig)
-
-# thisFile = open("./midiFeatures.txt", "w")
-# features = ' '.join(str(e) for e in parsed[0])
-# thisFile.write(features)
-# thisFile.write("\n")
-# features = ' '.join(str(e) for e in parsed[1])
-# thisFile.write(features)
-# thisFile.write("\n")
-# features = ' '.join(str(e) for e in parsed[2])
-# thisFile.write(features)
-# thisFile.close
-# print(parsed)
 #
 # make_time_series(midifile, 0, "./time_series")
 #

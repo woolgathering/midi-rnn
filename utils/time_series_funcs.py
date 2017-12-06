@@ -5,19 +5,13 @@ def make_time_series(midifile, track_num, out_path, transpose=0):
   time_signature = get_time_signature(midifile)
 
   # write a header
-  this_file.write(str(get_tempo(midifile))) # write the get_tempo
-  this_file.write(" ") # a space
+  this_file.write(str(get_tempo(midifile)) + " ") # write the get_tempo
 
-  this_file.write(str(time_signature.get('numerator')))
-  this_file.write(" ")
-  this_file.write(str(time_signature.get('denominator')))
-  this_file.write(" ")
-  this_file.write(str(time_signature.get('clocks_per_click')))
-  this_file.write(" ")
-  this_file.write(str(time_signature.get('notated_32nd_notes_per_beat')))
-  this_file.write(" ")
-  this_file.write(str(midifile.ticks_per_beat)) # ticks per beat
-  this_file.write(" ") # a space
+  this_file.write(str(time_signature.get('numerator')) + " ")
+  this_file.write(str(time_signature.get('denominator')) + " ")
+  this_file.write(str(time_signature.get('clocks_per_click')) + " ")
+  this_file.write(str(time_signature.get('notated_32nd_notes_per_beat')) + " ")
+  this_file.write(str(midifile.ticks_per_beat) + " ") # ticks per beat
   this_file.write("0 0 0 0") # four zeros
 
   for track in midifile.tracks[track_num]:
