@@ -7,20 +7,20 @@ notes = [] # empty list to put the notes into
 velocities = [] # empty list for velocities
 track = mid.tracks[2] # we'll use the second track (since in my example, it's a monophonic instrument)
 for msg in track:
-    if msg.type=="note_on":
-        notes.append(msg.note) # just get the note on events since it always has a correlate note_off of the same note
-        velocities.append(msg.velocity) # remember how loud it was
+  if msg.type=="note_on":
+    notes.append(msg.note) # just get the note on events since it always has a correlate note_off of the same note
+    velocities.append(msg.velocity) # remember how loud it was
 # print(notes)
 
 # get rhythms
 rhythms = []
 for msg in track:
-    if msg.type=="note_on":
-        rest = msg.time * -1
-        rhythms.append(rest)
-    if msg.type=="note_off":
-        noteLength = msg.time
-        rhythms.append(noteLength)
+  if msg.type=="note_on":
+    rest = msg.time * -1
+    rhythms.append(rest)
+  if msg.type=="note_off":
+    noteLength = msg.time
+    rhythms.append(noteLength)
 # print(rhythms) # list of rhythms in ticks (delta; ticks since last message). Negative values are rests (no sound)
 ## in other words, negative messages get paired with note_on events if we're creating a new MIDI file message by message.
 
