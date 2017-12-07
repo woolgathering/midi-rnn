@@ -34,7 +34,7 @@ def read_features(path):
   this_file.close() # close it
 
   notes = list(map(int, notes.split(" "))) # make into a list of integers
-  rhythms = list(map(int, rhythms.split(" "))) # make into a list of integers
+  rhythms = list(map(float, rhythms.split(" "))) # make into a list of floats
   velocities = list(map(int, velocities.split(" "))) # make into a list of integers
   return [notes, rhythms, velocities]
 
@@ -65,6 +65,31 @@ def features_to_midi(features, tempo, ticks_per_beat, out_path):
 
   midifile.save(out_path) # save the file
   return out_path
+
+def features_to_midi_NORESTS(features, tempo, ticks_per_beat, out_path):
+  # get the features
+  notes = features[0]
+  rhythms = features[1]
+  velocities = features[2]
+
+  midifile = MidiFile(ticks_per_beat=ticks_per_beat) # create the file
+  track = MidiTrack() # create a track
+  midifile.tracks.append(track) # append the track to the file
+  track.append(MetaMessage('set_tempo', tempo=int(tempo))) # set the tempo
+
+  for i, note in enumerate(notes):
+    try:
+      ticks = round(make_ticks(rhythms[i], ticks_per_beat)) # get the delta time
+      message = Message('note_on', note=note, velocity=velocities[i], time=0) # note on
+      track.append(message) # attach the message to the track
+      message = Message('note_off', note=note, velocity=127, time=ticks) # note off
+      track.append(message) # attach the message to the track
+    except IndexError:
+      print ("Error: Check matrix dimensions. Too many notes.")
+
+  midifile.save(out_path) # save the file
+  return out_path
+
 
 # the size of the array returned is always the number of notes - 1
 def get_intervals(pitches):
