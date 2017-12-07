@@ -11,10 +11,12 @@ track = midifile.tracks[0]
 # tempo = get_tempo(mid)
 # print(tempo)
 #
-parsed = simple_parse_midi(midifile, 0, get_tempo(midifile))
-print(parsed[0])
+# parsed = simple_parse_midi(midifile, 0, get_tempo(midifile))
+# print(parsed[0])
+generated = read_features('midi/data/Generated.txt')
 
-features_to_midi(parsed, get_tempo(midifile), midifile.ticks_per_beat, 'midi/data/resynth/fromParsed.mid')
+
+features_to_midi_NORESTS(generated, get_tempo(midifile), midifile.ticks_per_beat, 'midi/data/resynth/fromParsed.mid')
 
 
 #
