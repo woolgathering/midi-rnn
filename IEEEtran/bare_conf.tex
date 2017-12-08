@@ -1,0 +1,726 @@
+
+%% bare_conf.tex
+%% V1.4b
+%% 2015/08/26
+%% by Michael Shell
+%% See:
+%% http://www.michaelshell.org/
+%% for current contact information.
+%%
+%% This is a skeleton file demonstrating the use of IEEEtran.cls
+%% (requires IEEEtran.cls version 1.8b or later) with an IEEE
+%% conference paper.
+%%
+%% Support sites:
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://www.ctan.org/pkg/ieeetran
+%% and
+%% http://www.ieee.org/
+
+%%*************************************************************************
+%% Legal Notice:
+%% This code is offered as-is without any warranty either expressed or
+%% implied; without even the implied warranty of MERCHANTABILITY or
+%% FITNESS FOR A PARTICULAR PURPOSE! 
+%% User assumes all risk.
+%% In no event shall the IEEE or any contributor to this code be liable for
+%% any damages or losses, including, but not limited to, incidental,
+%% consequential, or any other damages, resulting from the use or misuse
+%% of any information contained here.
+%%
+%% All comments are the opinions of their respective authors and are not
+%% necessarily endorsed by the IEEE.
+%%
+%% This work is distributed under the LaTeX Project Public License (LPPL)
+%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
+%% distributed and modified. A copy of the LPPL, version 1.3, is included
+%% in the base LaTeX documentation of all distributions of LaTeX released
+%% 2003/12/01 or later.
+%% Retain all contribution notices and credits.
+%% ** Modified files should be clearly indicated as such, including  **
+%% ** renaming them and changing author support contact information. **
+%%*************************************************************************
+
+
+% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
+% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
+% *** with production work. The IEEE's font choices and paper sizes can   ***
+% *** trigger bugs that do not appear when using other class files.       ***                          ***
+% The testflow support page is at:
+% http://www.michaelshell.org/tex/testflow/
+
+
+
+\documentclass[conference]{IEEEtran}
+% Some Computer Society conferences also require the compsoc mode option,
+% but others use the standard conference format.
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[conference]{../sty/IEEEtran}
+
+
+
+
+
+% Some very useful LaTeX packages include:
+% (uncomment the ones you want to load)
+
+
+% *** MISC UTILITY PACKAGES ***
+%
+%\usepackage{ifpdf}
+% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
+% compilation based on whether the output is pdf or dvi.
+% usage:
+% \ifpdf
+%   % pdf code
+% \else
+%   % dvi code
+% \fi
+% The latest version of ifpdf.sty can be obtained from:
+% http://www.ctan.org/pkg/ifpdf
+% Also, note that IEEEtran.cls V1.7 and later provides a builtin
+% \ifCLASSINFOpdf conditional that works the same way.
+% When switching from latex to pdflatex and vice-versa, the compiler may
+% have to be run twice to clear warning/error messages.
+
+
+
+
+
+
+% *** CITATION PACKAGES ***
+%
+%\usepackage{cite}
+% cite.sty was written by Donald Arseneau
+% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
+% \cite{} output to follow that of the IEEE. Loading the cite package will
+% result in citation numbers being automatically sorted and properly
+% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
+% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
+% \cite will automatically add leading space, if needed. Use cite.sty's
+% noadjust option (cite.sty V3.8 and later) if you want to turn this off
+% such as if a citation ever needs to be enclosed in parenthesis.
+% cite.sty is already installed on most LaTeX systems. Be sure and use
+% version 5.0 (2009-03-20) and later if using hyperref.sty.
+% The latest version can be obtained at:
+% http://www.ctan.org/pkg/cite
+% The documentation is contained in the cite.sty file itself.
+
+
+
+
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+  % \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  % \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation
+% can be obtained at: 
+% http://www.ctan.org/pkg/graphicx
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found at:
+% http://www.ctan.org/pkg/epslatex
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). The IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+
+
+
+
+% *** MATH PACKAGES ***
+%
+%\usepackage{amsmath}
+% A popular package from the American Mathematical Society that provides
+% many useful and powerful commands for dealing with mathematics.
+%
+% Note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+%\interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks as IEEEtran.cls normally
+% does. amsmath.sty is already installed on most LaTeX systems. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/pkg/amsmath
+
+
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+%\usepackage{algorithmic}
+% algorithmic.sty was written by Peter Williams and Rogerio Brito.
+% This package provides an algorithmic environment fo describing algorithms.
+% You can use the algorithmic environment in-text or within a figure
+% environment to provide for a floating algorithm. Do NOT use the algorithm
+% floating environment provided by algorithm.sty (by the same authors) or
+% algorithm2e.sty (by Christophe Fiorio) as the IEEE does not use dedicated
+% algorithm float types and packages that provide these will not provide
+% correct IEEE style captions. The latest version and documentation of
+% algorithmic.sty can be obtained at:
+% http://www.ctan.org/pkg/algorithms
+% Also of interest may be the (relatively newer and more customizable)
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/pkg/algorithmicx
+
+
+
+
+% *** ALIGNMENT PACKAGES ***
+%
+%\usepackage{array}
+% Frank Mittelbach's and David Carlisle's array.sty patches and improves
+% the standard LaTeX2e array and tabular environments to provide better
+% appearance and additional user controls. As the default LaTeX2e table
+% generation code is lacking to the point of almost being broken with
+% respect to the quality of the end results, all users are strongly
+% advised to use an enhanced (at the very least that provided by array.sty)
+% set of table tools. array.sty is already installed on most systems. The
+% latest version and documentation can be obtained at:
+% http://www.ctan.org/pkg/array
+
+
+% IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% generate multiline equations as well as matrices, tables, etc., of high
+% quality.
+
+
+
+
+% *** SUBFIGURE PACKAGES ***
+%\ifCLASSOPTIONcompsoc
+%  \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+%\else
+%  \usepackage[caption=false,font=footnotesize]{subfig}
+%\fi
+% subfig.sty, written by Steven Douglas Cochran, is the modern replacement
+% for subfigure.sty, the latter of which is no longer maintained and is
+% incompatible with some LaTeX packages including fixltx2e. However,
+% subfig.sty requires and automatically loads Axel Sommerfeldt's caption.sty
+% which will override IEEEtran.cls' handling of captions and this will result
+% in non-IEEE style figure/table captions. To prevent this problem, be sure
+% and invoke subfig.sty's "caption=false" package option (available since
+% subfig.sty version 1.3, 2005/06/28) as this is will preserve IEEEtran.cls
+% handling of captions.
+% Note that the Computer Society format requires a larger sans serif font
+% than the serif footnote size font used in traditional IEEE formatting
+% and thus the need to invoke different subfig.sty package options depending
+% on whether compsoc mode has been enabled.
+%
+% The latest version and documentation of subfig.sty can be obtained at:
+% http://www.ctan.org/pkg/subfig
+
+
+
+
+% *** FLOAT PACKAGES ***
+%
+%\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure.
+% Be aware that LaTeX2e kernels dated 2015 and later have fixltx2e.sty's
+% corrections already built into the system in which case a warning will
+% be issued if an attempt is made to load fixltx2e.sty as it is no longer
+% needed.
+% The latest version and documentation can be found at:
+% http://www.ctan.org/pkg/fixltx2e
+
+
+%\usepackage{stfloats}
+% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
+% the ability to do double column floats at the bottom of the page as well
+% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
+% LaTeX2e). It also provides a command:
+%\fnbelowfloat
+% to enable the placement of footnotes below bottom floats (the standard
+% LaTeX2e kernel puts them above bottom floats). This is an invasive package
+% which rewrites many portions of the LaTeX2e float routines. It may not work
+% with other packages that modify the LaTeX2e float routines. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/pkg/stfloats
+% Do not use the stfloats baselinefloat ability as the IEEE does not allow
+% \baselineskip to stretch. Authors submitting work to the IEEE should note
+% that the IEEE rarely uses double column equations and that authors should try
+% to avoid such use. Do not be tempted to use the cuted.sty or midfloat.sty
+% packages (also by Sigitas Tolusis) as the IEEE does not format its papers in
+% such ways.
+% Do not attempt to use stfloats with fixltx2e as they are incompatible.
+% Instead, use Morten Hogholm'a dblfloatfix which combines the features
+% of both fixltx2e and stfloats:
+%
+% \usepackage{dblfloatfix}
+% The latest version can be found at:
+% http://www.ctan.org/pkg/dblfloatfix
+
+
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+%\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version and documentation can be obtained at:
+% http://www.ctan.org/pkg/url
+% Basically, \url{my_url_here}.
+
+
+
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+\usepackage{graphicx}
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+\begin{document}
+%
+% paper title
+% Titles are generally capitalized except for words such as a, an, and, as,
+% at, but, by, for, in, nor, of, on, or, the, to and up, which are usually
+% not capitalized unless they are the first or last word of the title.
+% Linebreaks \\ can be used within to get better formatting as desired.
+% Do not put math or special symbols in the title.
+\title{Fusion of Music Styles Using LSTM Recurrent Neural Networks}
+
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{\IEEEauthorblockN{Harsh Lal}
+\IEEEauthorblockA{
+UCSD\\
+PID: A53244610\\
+Email: hlal@ucsd.edu}
+\and
+\IEEEauthorblockN{Jacob Sundstrom}
+\IEEEauthorblockA{UCSD\\
+PID: FILLHERE\\
+Email: jlsundst@ucsd.edu}
+\and
+\IEEEauthorblockN{Nakul Tiruviluamala}
+\IEEEauthorblockA{UCSD\\
+PID: FILLHERE\\
+Email: ntiruvil@ucsd.edu}
+\and
+\IEEEauthorblockN{David Defilippo}
+\IEEEauthorblockA{UCSD\\
+PID: FILLHERE\\
+Email: ddefilip@ucsd.edu}}
+
+% conference papers do not typically use \thanks and this command
+% is locked out in conference mode. If really needed, such as for
+% the acknowledgment of grants, issue a \IEEEoverridecommandlockouts
+% after \documentclass
+
+% for over three affiliations, or if they all won't fit within the width
+% of the page, use this alternative format:
+% 
+%\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
+%Homer Simpson\IEEEauthorrefmark{2},
+%James Kirk\IEEEauthorrefmark{3}, 
+%Montgomery Scott\IEEEauthorrefmark{3} and
+%Eldon Tyrell\IEEEauthorrefmark{4}}
+%\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
+%Georgia Institute of Technology,
+%Atlanta, Georgia 30332--0250\\ Email: see http://www.michaelshell.org/contact.html}
+%\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
+%Email: homer@thesimpsons.com}
+%\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
+%Telephone: (800) 555--1212, Fax: (888) 555--1212}
+%\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
+
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+
+% make the title area
+\maketitle
+
+% As a general rule, do not put math, special symbols or citations
+% in the abstract
+\begin{abstract}
+Appeal of a music composition depends to some extent on complex mathematical equations governing the waveform, but is mostly subjective from viewpoint of an individual. It is perceived and judged qualitatively in a different way by different individuals. In this project we propose to build a deep learning system which could take $n$ different styles of music composition and generate music using current input as well as feedback and memory from the past samples. This generation can then be judged by concerned 'human' agent, and the parameter of the neural network to be adjusted accordingly to generate a fusion music that is more closer and appealing to agent's expectations.Recurrent neural networks with Long Short Term Memory (LSTMs) in particular have shown promise as a module that can learn long songs sequences, and generate new compositions based on the song's harmonic structure and the feedback inherent in the network. \cite{judy2} We plan to explore the same through our experiments.
+\end{abstract}
+
+% no keywords
+
+
+
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+
+
+\section{Introduction}
+% no \IEEEPARstart
+Music is an extraordinarily appealing auditory sensation. The classification of musical styles can be infinite. In recent times there has been a growing trend towards fusion of two compositions. Usually highly skilled musicians mix different musical styles and compositions, to generate something that has best of both worlds. In this work we we try to combine different musical styles using deep learning techniques. Most of our work is centered around `midi-files' but can be easily extended to incorporate new formats.\\
+
+The most straightforward way to generate music with with a recurrent neural network (RNN) is to use the network as a single step predictor. The network can be trained to predict notes at time $t+1$ conditioned on notes till time $t$ as inputs. After the training is completed, the network can be seeded with random initial inputs (mostly from training samples) to generate novel musical compositions using subsequent output generated as input for next generation. This note-by note approach was first examined by Bharucha \& Todd.\cite{todd,eck}\\
+
+A generic feed-forward neural network would not be a good fit at composing music using the technique described above. The main reason behind this is the inability to memorize any information about the past, thereby not being able to keep track of variations \& periodicity of a song's  feature across time. In principle RNN does not suffer this limitation owing to its recurrent connections and hidden activation layers that may act memory elements, thereby exhibiting temporal behaviour. However they do not perform well at the task of modelling long duration temporal dynamics as studied by Mozer.\cite{mozer}, with most likely cause being the the problem of vanishing gradients assosciated with RNNs.\cite{hochreiter}\\
+
+So we explore the viability of using LSTM recurrent neural networks for the same and experiment with fusion of different musical styles. For this we extract features like notes, rhythm and amplitude from midi files as described in \ref{Feature Engineering}. We then pre-process it and pass it to a neural network. We train neural networks separately for each of the features. We then generate the chosen features from target musical style and then combine them to generate the final output result as described in \ref{Model description}. We then experiment with varying styles and describe out results in latter sections.
+% You must have at least 2 lines in the paragraph with the drop letter
+% (should never be an issue)
+%I wish you the best of success.
+
+\section{Dataset}
+Describe the dataset here
+
+\subsection{Preprocessing}
+Describe the preprocessing here
+
+\subsection{Feature Engineering} \label{Feature Engineering}
+Describe the feature engineering here
+
+\subsubsection{Feature 1:Notes} \label{f1notes}
+Subsubsection text here.
+
+\subsubsection{Feature 1:Amplitude} \label{f2amp}
+Subsubsection text here.
+
+\subsubsection{Feature 1:Rest} \label{f3rest}
+Subsubsection text here.
+
+\section{Basic Architecture}
+Feed-forward neural networks consists of 2 or more layers of processing units, each with weighted connection to the next layer. Each unit passes the sum of its weighted inputs through a non linear sigmoid function. Each layer's outputs are fed forward through the network to the next layer, until the output layer is reached. Weights are initialized to small initial random values. Via the back-propagation algorithm, outputs are compared to targets, and the errors are propagated back through the connection weights. Weights are updated by gradient descent. Through an iterative training procedure, examples(inputs) and targets are presented repeatedly; the network learns nonlinear function of the inputs. We explore these networks for the purpose of processing musical features.\cite{judy1}
+
+\subsection{Recurrent Neural Networks}
+Recurrent neural network (RNN) is a class of artificial neural network where connections between units form a directed cycle. This allows it to exhibit dynamic temporal behavior. Unlike feed-forward neural networks, RNNs can use their internal memory to process arbitrary sequences of inputs. These networks use shared parameters across time, thereby providing these networks with capability to remember time history.\\
+
+A recurrent network uses feedback from one or more of its units as input in choosing the next output. This means that values generated by units at time step $t-1$, say $y(t-1)$, are part of the inputs $x(t)$ used in selecting the next set of outputs $y(t)$. A network maybe fully recurrent; that is all units are connected back to each other and to themselves. Or part of the network may be fed back in recurrent links. \cite{judy1}\\
+
+\begin{figure}[h]
+\includegraphics[width=0.5\textwidth]{1.PNG}
+\caption{Basic Recurrent Neural Networks}
+\label{fig:figure7}
+\end{figure}
+
+Figure \ref{fig:figure7} shows a typical RNN. Here if the sequence is stationary then the network simplifies where weights simplifies as $W = W1 = W2 = W3 = W4$ and recurrent connections simplifies as $R = R1 = R2 = R3$.
+In recurrent neural networks we need to back propagate through time. Due to a lot of correlated updates per iteration may cause the problem of exploding or vanishing gradients. The problem of vanishing gradient is solved using LSTM (long short term memory) cells instead of regular neurons as is described in next section.
+
+\subsection{LSTM}
+Long Short-Term Memory (LSTM) is a recurrent neural network (RNN) architecture that has been designed to address the vanishing and exploding gradient problems of conventional RNNs. Unlike feed-forward neural networks, RNNs have cyclic connections making them powerful for modeling sequences. They have been successfully used for sequence labeling and sequence prediction tasks, such as handwriting recognition, language modeling, phonetic labeling of acoustic frames. \cite{lstm}\\
+The LSTM network is a significant departure from other networks in that it uses hidden layer of memory blocks that can be thought of a complex processing units as shown in figure \ref{fig:figure1}. Departing from typical notion of neuron units that sums its weighted inputs and passes them to a non linear sigmoid function, each LSTM memory block contains gating units. The Write gate learns to controls when inputs are allowed to pass in to the cell, the Read gate learns to controls when cell's outputs are passed out of the block, and the Forget gate learns to control when to reset the memory.\\
+\\The weight updates for each block of the LSTM network are complex because of the use of the $n$ memory cells and the three gates (described above) that control these $n$ cells within each block. Over and above each output unit of the whole network has a set of weights used to multiply the values coming from the memory blocks. Each gate has a set of weights that it uses to multiply its inputs (recurrent inputs from all the memory blocks and also external inputs) and then pass through a sigmoid function. \cite{judy}
+
+\begin{figure}[h]
+\includegraphics[width=0.5\textwidth]{3.PNG}
+\caption{Model Architecture}
+\label{fig:figure8}
+\end{figure}
+
+\subsection{Model Description} \label{Model description}
+We have designed our system such that a separate recurrent neural network is being trained on each of the features extracted from a musical composition. We then generate the feature using a starting seed and then recombine them to create a musical harmony. For achieving fusion of different musical styles we have taken an approach wherein we generate the selected characteristic (say notes) of a composition $A$, and a different characteristic (say rest or pauses) of composition $B$ and so one. We then combine these features using a Generation Engine to recover a musical composition as shown in figure \ref{fig:figure9}
+
+$$ Song_A = feature_A{1} + feature_A{2} + feature_A{3}$$
+$$ Song_B = feature_B{1} + feature_B{2} + feature_B{3}$$
+$$ Song_{Fusion} = feature_A{1} + feature_B{2} + feature_A{3}$$
+
+We first pass the music files through a feature extraction engine as described in \ref{Feature Engineering}. We then select the musical features that we are interested in combining from the music files. These features are then used to train the neural networks with a tunable memory parameter. Once trained these networks are used for generation of the learned features. These features are then passed through a Generation engine that works opposite to the Feature extraction, and combines the features to genrate a musical file.
+
+\begin{figure}[h]
+\includegraphics[width=0.5\textwidth]{IEEEtran/2.PNG}
+\caption{System architecture}
+\label{fig:figure9}
+\end{figure}
+
+\subsubsection{Model for Notes}
+We train a LSTM recurrent neural network using the notes extracted from musical composition as described in \ref{f1notes}. Here we use a sliding memory window of size $M$. We create training set by sliding the window over the entire interval and can be represented as follows:
+$$feature = {note_{t},note_{t+1},note_{t+2},note_{t+3},.....note_{t+(M-1)}}$$
+$$label = {note_{t+M}}$$
+
+We generate similar feature-label pairs from the musical composition. Then we use a deep recurrent LSTM network with 256 nodes, one hidden layer, a dropout of 0.2 coupled with a \texttt{softmax} activation function. We use \texttt{categorical cross-entropy} as our loss function.\\
+
+\begin{figure}[h]
+\includegraphics[width=0.5\textwidth]{IEEEtran/notes_o.png}
+\caption{Time Variation of Original Notes}
+\label{fig:figure1}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[width=0.5\textwidth]{IEEEtran/notes_g.png}
+\caption{Time Variation of Generated Notes}
+\label{fig:figure2}
+\end{figure}
+
+\subsubsection{Model for amplitude}
+We train a LSTM recurrent neural network using the aplitudes extracted from musical composition as described in \ref{f2amp}. Here we use a sliding memory window of size $M$. We create training set by sliding the window over the entire interval and can be represented as follows:
+$$feature = {amp_{t},amp_{t+1},amp_{t+2},amp_{t+3},.....amp_{t+(M-1)}}$$
+$$label = {amp_{t+M}}$$
+
+We generate similar feature-label pairs from the musical composition. Then we use a deep recurrent LSTM network with 256 nodes, one hidden layer, a dropout of 0.2 coupled with a \texttt{softmax} activation function. We use \texttt{categorical cross-entropy} as our loss function.\\
+
+\begin{figure}[h]
+\includegraphics[width=0.5\textwidth]{IEEEtran/amp_o.png}
+\caption{Time Variation of Original Amplitudes}
+\label{fig:figure3}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[width=0.5\textwidth]{IEEEtran/amp_g.png}
+\caption{Time Variation of Generated Amplitudes}
+\label{fig:figure4}
+\end{figure}
+
+\subsubsection{Model for Rests}
+We train a LSTM recurrent neural network using the notes extracted from musical composition as described in \ref{f1notes}. Here we use a sliding memory window of size $M$. We create training set by sliding the window over the entire interval and can be represented as follows:
+$$feature = {rest{t},rest_{t+1},rest_{t+2},rest_{t+3},.....rest_{t+(M-1)}}$$
+$$label = {rest_{t+M}}$$
+
+We generate similar feature-label pairs from the musical composition. Then we use a recurrent LSTM network with 4 nodes. We use \texttt{mean squared error} as our loss function.
+\begin{figure}[h]
+\includegraphics[width=0.5\textwidth]{IEEEtran/rest_o.png}
+\caption{Time Variation of Original Rest}
+\label{fig:figure5}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[width=0.5\textwidth]{IEEEtran/rest_g.png}
+\caption{Time Variation of Generated Rest}
+\label{fig:figure6}
+\end{figure}
+% An example of a floating figure using the graphicx package.
+% Note that \label must occur AFTER (or within) \caption.
+% For figures, \caption should occur after the \includegraphics.
+% Note that IEEEtran v1.7 and later has special internal code that
+% is designed to preserve the operation of \label within \caption
+% even when the captionsoff option is in effect. However, because
+% of issues like this, it may be the safest practice to put all your
+% \label just after \caption rather than within \caption{}.
+%
+% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
+% option should be used if it is desired that the figures are to be
+% displayed while in draft mode.
+%
+%\begin{figure}[!t]
+%\centering
+%\includegraphics[width=2.5in]{myfigure}
+% where an .eps filename suffix will be assumed under latex, 
+% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+% via \DeclareGraphicsExtensions.
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure}
+
+% Note that the IEEE typically puts floats only at the top, even when this
+% results in a large percentage of a column being occupied by floats.
+
+
+% An example of a double column floating figure using two subfigures.
+% (The subfig.sty package must be loaded for this to work.)
+% The subfigure \label commands are set within each subfloat command,
+% and the \label for the overall figure must come after \caption.
+% \hfil is used as a separator to get equal spacing.
+% Watch out that the combined width of all the subfigures on a 
+% line do not exceed the text width or a line break will occur.
+%
+%\begin{figure*}[!t]
+%\centering
+%\subfloat[Case I]{\includegraphics[width=2.5in]{box}%
+%\label{fig_first_case}}
+%\hfil
+%\subfloat[Case II]{\includegraphics[width=2.5in]{box}%
+%\label{fig_second_case}}
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure*}
+%
+% Note that often IEEE papers with subfigures do not employ subfigure
+% captions (using the optional argument to \subfloat[]), but instead will
+% reference/describe all of them (a), (b), etc., within the main caption.
+% Be aware that for subfig.sty to generate the (a), (b), etc., subfigure
+% labels, the optional argument to \subfloat must be present. If a
+% subcaption is not desired, just leave its contents blank,
+% e.g., \subfloat[].
+
+
+% An example of a floating table. Note that, for IEEE style tables, the
+% \caption command should come BEFORE the table and, given that table
+% captions serve much like titles, are usually capitalized except for words
+% such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to
+% and up, which are usually not capitalized unless they are the first or
+% last word of the caption. Table text will default to \footnotesize as
+% the IEEE normally uses this smaller font for tables.
+% The \label must come after \caption as always.
+%
+%\begin{table}[!t]
+%% increase table row spacing, adjust to taste
+%\renewcommand{\arraystretch}{1.3}
+% if using array.sty, it might be a good idea to tweak the value of
+% \extrarowheight as needed to properly center the text within the cells
+%\caption{An Example of a Table}
+%\label{table_example}
+%\centering
+%% Some packages, such as MDW tools, offer better commands for making tables
+%% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|}
+%\hline
+%One & Two\\
+%\hline
+%Three & Four\\
+%\hline
+%\end{tabular}
+%\end{table}
+
+
+% Note that the IEEE does not put floats in the very first column
+% - or typically anywhere on the first page for that matter. Also,
+% in-text middle ("here") positioning is typically not used, but it
+% is allowed and encouraged for Computer Society conferences (but
+% not Computer Society journals). Most IEEE journals/conferences use
+% top floats exclusively. 
+% Note that, LaTeX2e, unlike IEEE journals/conferences, places
+% footnotes above bottom floats. This can be corrected via the
+% \fnbelowfloat command of the stfloats package.
+
+
+\section{Experiments \& Results}
+We experimented the with learning the features of a musical composition as described in \ref{Feature Engineering} above. We have mainly utilized Keras \cite{keras} for training the neural networks.
+
+\section{Future Scope}
+Talk about feature extraction using FFT
+
+\section{Conclusion}
+The current work has demonstrated that recurrent neural networks (RNNs) in combination with long short term memory (LSTM) cells, has the capability to capture temporal dynamics of a musical composition. Although not precise reproduction but we achieved very similar reproduction of the certain features, when we seeded the network with beginning of time $t_0$ for a musical composition. Our motive in this paper was to focus on generative aspects of the musical composition so we seeded the network randomly which resulted in generation of different samples. The periodicity of feature patterns are preserved in such cases, but the the coordination information seems to be lost when we try recombination of the same.\\
+
+\\This is in accordance with out expectations as we did not want an entire reproduction of the samples. We wanted the sensitivity of out network to be high, but also a good amount specificity so that the network could learn a generic style which can then be used in combination with counterpart features from fundamentally variant data points. Our experiments yielded good results where we just restricted the features to being notes, rest and amplitude as defined in the section.\ref{Feature Engineering} Although we would prefer keeping the model simple, we expect improved results by taking into account an increased number of uncorrelated features. On the basis of our experiments we can say that the technique presented here can definitely be used for fusion of different musical styles. We are eager to experiment with more complex architectures and variant styles to see how well out preliminary results evolve on tuning various parameters.
+
+
+% conference papers do not normally have an appendix
+
+
+% use section* for acknowledgment
+%\section*{Acknowledgment}
+
+
+%The authors would like to thank...
+
+
+
+
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% references section
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://mirror.ctan.org/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+%\bibliographystyle{IEEEtran}
+% argument is your BibTeX string definitions and bibliography database(s)
+%\bibliography{IEEEabrv,../bib/paper}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+\begin{thebibliography}{1}
+
+\bibitem{lstm}
+Hasim Sak, Andrew Senior, Francoise Beaufays, \emph{Long Short-Term Memory Recurrent Neural Network Architectures for Large Scale Acoustic Modeling}.\hskip 1em plus 0.5em minus 0.4em\relax Google, USA
+
+\bibitem{sturm}
+Bob L. Sturm, Joao Felipe Santos, Iryna Korshunova, \emph{Folk music style modelling by recurrent neural networks with long short term memory units}.\hskip 1em plus 0.5em minus 0.4em\relax Late-breaking demo at the 2015 Int. Symposium on Music Information Retrieval.
+
+\bibitem{judy}
+Judy A. Franklin. \emph{Recurrent neural networks for music computation}.\hskip 1em plus 0.5em minus 0.4em\relax ORSA journal on computing, 18(3):321–338, 2006
+
+\bibitem{judy1}
+Judy A. Franklin, Krystal K. Locke, \emph{Recurrent Neural Networks For Musical Pitch memory and classification}.\hskip 1em plus 0.5em minus 0.4em\relax International Journal on Artificial Intelligence Tools\relax. July, 2004
+
+\bibitem{judy2}
+Judy A. Franklin. \emph{Jazz Melody Generation from Recurrent Network Learning of Several Human Melodies}.\hskip 1em plus 0.5em minus 0.4em\relax American Association for Artificial Intelligence, 2005
+
+\bibitem{todd}
+Bharucha, J. J. and Todd, P. M. \emph{Modeling the perception of tonal structure with neural nets}. \hskip 1em plus 0.5em minus 0.4em\relax Computer Music Journal, \relax 13(4):44–53.(1989)
+
+\bibitem{eck}
+Douglas Eck, J\u{u}ergen Schmidhuber. \emph{A First Look at Music Composition using LSTM Recurrent Neural Networks}\hskip 1em plus 0.5em minus 0.4em\relax Instituto Dalle Molle di studi sull\' intelligenza artificiale Galleria 2 \relax Technical Report No. IDSIA-07-02
+
+\bibitem{mozer}
+Stevens, C. and Wiles, J. (1994).\emph{Representations of tonal music: A case study in the development of temporal relationship}. In Mozer, M., Smolensky, P., Touretsky, D., Elman, J., and Weigend, A. S., editors,\hskip 1em plus 0.5em minus 0.4em\relax Proceedings of the 1993 Connectionist Models Summer School,\relax pages 228–235.
+
+\bibitem{hochreiter}
+Hochreiter, S., Bengio, Y., Frasconi, P., and Schmidhuber, J. (2001). \emph{Gradient flow in recurrent nets: the difficulty of learning long-term dependencies}.\hskip 1em plus 0.5em minus 0.4em\relax In Kremer, S. C. and Kolen, J. F.,editors, A Field Guide to Dynamical Recurrent Neural Networks.\relax IEEE Press
+
+\bibitem{keefe}
+B.Laden and D.H.Keefe. \emph{The Representation of Pitch in a Neural Net Model of Chord Classification Music and Connectionism},\hskip 1em plus 0.5em minus 0.4em\relax eds. Todd, P.M. and Loy, E.D.,\relax (MIT Press, Cambridge, MA, 1991)
+
+
+\bibitem{IEEEhowto:kopka}
+H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus 0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+
+\bibitem{keras}
+Chollet Fran\c{c}ois and others, \emph{Keras} \url{https://github.com/fchollet/keras} \relax 2015
+
+\end{thebibliography}
+
+
+
+
+% that's all folks
+\end{document}
+
+
