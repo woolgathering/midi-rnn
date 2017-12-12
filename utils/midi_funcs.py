@@ -168,6 +168,7 @@ def get_time_signature(midifile):
 
 # check key
 def get_key(midifile):
+  key = 0 # default to C
   for track in midifile.tracks:
     for msg in track:
       if msg.type=='key_signature':
