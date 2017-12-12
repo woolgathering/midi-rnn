@@ -4,8 +4,8 @@ from glob import glob
 from utils.midi_funcs import *
 from mido import MidiFile
 
-tune = "JohnColtrane"
-paths = glob('midi/projectMIDI/midi/*/Weimar/{}*.mid'.format(tune)) # read the filenames from a directory into an array
+tune = "CharlieParker"
+paths = glob('midi/projectMIDI/midi/midi_mp3/{}*.mid'.format(tune)) # read the filenames from a directory into an array
 print (paths)
 
 # you can check if directories exist and if they dont, automatically create them. But for this, this directory needs to exist.

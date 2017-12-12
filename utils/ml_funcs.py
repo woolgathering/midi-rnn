@@ -42,10 +42,10 @@ def make_and_train(data, memory=10):
 
   return model
 
-def generate_date(model, length=100):
+def generate_date(model, seed, memory=10, length=100):
   generated = []
-  start = np.random.randint(0, len(data_X)-1)
-  pattern = data_X[start]
+  # pattern = data_X[memory-1] # this is the seed. It's a one dimensional array the size of memory-1
+  pattern = seed
 
   # generate sequence with a random seed
   for i in range(length):
@@ -58,3 +58,14 @@ def generate_date(model, length=100):
       pattern = pattern[1:len(pattern)]
   print("Generation Completed!")
   return generated
+
+def parseMatrixFromFile(fname):
+  with open(fname) as f:
+    for i, l in enumerate(f):
+      if i==0:
+        notes = [int(x) for x in l.strip().split()]
+      elif i==1:
+        rhythms = [float(x) for x in l.strip().split()]
+      elif i==2:
+        velocities = [int(x) for x in l.strip().split()]
+  return notes, rhythms, velocities
