@@ -4,13 +4,13 @@ from glob import glob
 from utils.midi_funcs import *
 from mido import MidiFile
 
-tune = "bas"
-paths = glob('midi/projectMIDI/midi/{}/Weimar/*.mid'.format(tune)) # read the filenames from a directory into an array
+tune = "JohnColtrane"
+paths = glob('midi/projectMIDI/midi/*/Weimar/{}*.mid'.format(tune)) # read the filenames from a directory into an array
 print (paths)
 
 # you can check if directories exist and if they dont, automatically create them. But for this, this directory needs to exist.
 # Let's organize them in the same way Dave and Nakul have organized the midifiles, but in a different directory
-output_dir = 'midi/projectMIDI/data/parsed/tunes/{}/'.format(tune) # output directory
+output_dir = 'midi/projectMIDI/data/parsed/players/{}/'.format(tune) # output directory
 # trans = [0 for _ in range(len(paths))] # this MUST be the same size as paths!! Each number is the number of semitones to transpose by
 
 for i, path in enumerate(paths):
