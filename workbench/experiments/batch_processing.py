@@ -4,7 +4,7 @@ from glob import glob
 from utils.midi_funcs import *
 from mido import MidiFile
 
-tune = "Anthropology"
+tune = "bas"
 paths = glob('midi/projectMIDI/midi/{}/Weimar/*.mid'.format(tune)) # read the filenames from a directory into an array
 print (paths)
 
