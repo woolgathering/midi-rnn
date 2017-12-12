@@ -17,6 +17,8 @@ for path in paths:
   name = os.path.basename(path)
   notes, rhythms, velocities = list(parseMatrixFromFile(path))
 
+  print ("Training on {}".format(base))
+
   print ("Training notes")
   note_model = make_and_train(notes, memory)
   print ("Training rhythms")
