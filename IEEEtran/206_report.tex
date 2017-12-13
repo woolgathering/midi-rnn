@@ -1,116 +1,4 @@
-
-%% bare_conf.tex
-%% V1.4b
-%% 2015/08/26
-%% by Michael Shell
-%% See:
-%% http://www.michaelshell.org/
-%% for current contact information.
-%%
-%% This is a skeleton file demonstrating the use of IEEEtran.cls
-%% (requires IEEEtran.cls version 1.8b or later) with an IEEE
-%% conference paper.
-%%
-%% Support sites:
-%% http://www.michaelshell.org/tex/ieeetran/
-%% http://www.ctan.org/pkg/ieeetran
-%% and
-%% http://www.ieee.org/
-
-%%*************************************************************************
-%% Legal Notice:
-%% This code is offered as-is without any warranty either expressed or
-%% implied; without even the implied warranty of MERCHANTABILITY or
-%% FITNESS FOR A PARTICULAR PURPOSE! 
-%% User assumes all risk.
-%% In no event shall the IEEE or any contributor to this code be liable for
-%% any damages or losses, including, but not limited to, incidental,
-%% consequential, or any other damages, resulting from the use or misuse
-%% of any information contained here.
-%%
-%% All comments are the opinions of their respective authors and are not
-%% necessarily endorsed by the IEEE.
-%%
-%% This work is distributed under the LaTeX Project Public License (LPPL)
-%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
-%% distributed and modified. A copy of the LPPL, version 1.3, is included
-%% in the base LaTeX documentation of all distributions of LaTeX released
-%% 2003/12/01 or later.
-%% Retain all contribution notices and credits.
-%% ** Modified files should be clearly indicated as such, including  **
-%% ** renaming them and changing author support contact information. **
-%%*************************************************************************
-
-
-% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
-% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
-% *** with production work. The IEEE's font choices and paper sizes can   ***
-% *** trigger bugs that do not appear when using other class files.       ***                          ***
-% The testflow support page is at:
-% http://www.michaelshell.org/tex/testflow/
-
-
-
 \documentclass[conference]{IEEEtran}
-% Some Computer Society conferences also require the compsoc mode option,
-% but others use the standard conference format.
-%
-% If IEEEtran.cls has not been installed into the LaTeX system files,
-% manually specify the path to it like:
-% \documentclass[conference]{../sty/IEEEtran}
-
-
-
-
-
-% Some very useful LaTeX packages include:
-% (uncomment the ones you want to load)
-
-
-% *** MISC UTILITY PACKAGES ***
-%
-%\usepackage{ifpdf}
-% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
-% compilation based on whether the output is pdf or dvi.
-% usage:
-% \ifpdf
-%   % pdf code
-% \else
-%   % dvi code
-% \fi
-% The latest version of ifpdf.sty can be obtained from:
-% http://www.ctan.org/pkg/ifpdf
-% Also, note that IEEEtran.cls V1.7 and later provides a builtin
-% \ifCLASSINFOpdf conditional that works the same way.
-% When switching from latex to pdflatex and vice-versa, the compiler may
-% have to be run twice to clear warning/error messages.
-
-
-
-
-
-
-% *** CITATION PACKAGES ***
-%
-%\usepackage{cite}
-% cite.sty was written by Donald Arseneau
-% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
-% \cite{} output to follow that of the IEEE. Loading the cite package will
-% result in citation numbers being automatically sorted and properly
-% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
-% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
-% \cite will automatically add leading space, if needed. Use cite.sty's
-% noadjust option (cite.sty V3.8 and later) if you want to turn this off
-% such as if a citation ever needs to be enclosed in parenthesis.
-% cite.sty is already installed on most LaTeX systems. Be sure and use
-% version 5.0 (2009-03-20) and later if using hyperref.sty.
-% The latest version can be obtained at:
-% http://www.ctan.org/pkg/cite
-% The documentation is contained in the cite.sty file itself.
-
-
-
-
 
 
 % *** GRAPHICS RELATED PACKAGES ***
@@ -136,7 +24,7 @@
 % graphicx was written by David Carlisle and Sebastian Rahtz. It is
 % required if you want graphics, photos, etc. graphicx.sty is already
 % installed on most LaTeX systems. The latest version and documentation
-% can be obtained at: 
+% can be obtained at:
 % http://www.ctan.org/pkg/graphicx
 % Another good source of documentation is "Using Imported Graphics in
 % LaTeX2e" by Keith Reckdahl which can be found at:
@@ -329,22 +217,22 @@
 % affiliations
 \author{\IEEEauthorblockN{Harsh Lal}
 \IEEEauthorblockA{
-UCSD\\
+UCSD Department of Computer Science\\
 PID: A53244610\\
 Email: hlal@ucsd.edu}
 \and
 \IEEEauthorblockN{Jacob Sundstrom}
-\IEEEauthorblockA{UCSD\\
-PID: FILLHERE\\
+\IEEEauthorblockA{UCSD Department of Music\\
+PID: A09060631\\
 Email: jlsundst@ucsd.edu}
 \and
 \IEEEauthorblockN{Nakul Tiruviluamala}
-\IEEEauthorblockA{UCSD\\
+\IEEEauthorblockA{UCSD Department of Music\\
 PID: FILLHERE\\
 Email: ntiruvil@ucsd.edu}
 \and
 \IEEEauthorblockN{David Defilippo}
-\IEEEauthorblockA{UCSD\\
+\IEEEauthorblockA{UCSD Department of Music\\
 PID: FILLHERE\\
 Email: ddefilip@ucsd.edu}}
 
@@ -355,10 +243,10 @@ Email: ddefilip@ucsd.edu}}
 
 % for over three affiliations, or if they all won't fit within the width
 % of the page, use this alternative format:
-% 
+%
 %\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
 %Homer Simpson\IEEEauthorrefmark{2},
-%James Kirk\IEEEauthorrefmark{3}, 
+%James Kirk\IEEEauthorrefmark{3},
 %Montgomery Scott\IEEEauthorrefmark{3} and
 %Eldon Tyrell\IEEEauthorrefmark{4}}
 %\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
@@ -385,7 +273,7 @@ Email: ddefilip@ucsd.edu}}
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
 \begin{abstract}
-Appeal of a music composition depends to some extent on complex mathematical equations governing the waveform, but is mostly subjective from viewpoint of an individual. It is perceived and judged qualitatively in a different way by different individuals. In this project we propose to build a deep learning system which could take $n$ different styles of music composition and generate music using current input as well as feedback and memory from the past samples. This generation can then be judged by concerned 'human' agent, and the parameter of the neural network to be adjusted accordingly to generate a fusion music that is more closer and appealing to agent's expectations.Recurrent neural networks with Long Short Term Memory (LSTMs) in particular have shown promise as a module that can learn long songs sequences, and generate new compositions based on the song's harmonic structure and the feedback inherent in the network. \cite{judy2} We plan to explore the same through our experiments.
+Appeal of a musical composition is almost exclusively subjective in that it is a combination of the tastes, preferences, and history of an individual's experiences. That is, it is perceived and judged qualitatively in a different way by different individuals. In this project we propose to build a deep learning system which could take $n$ different samples of a jazz soloist - especially a variety of samples of specific 'styles' - and generate sound using current input as well as feedback and memory from the past samples. This generation can then be judged by a 'human' agent and the parameters of the neural network could be adjusted accordingly to generate a fusion music that is more closer and appealing to agent's expectations. Recurrent neural networks with Long Short Term Memory (LSTMs) in particular have shown promise as a module that can learn long songs sequences, and generate new compositions based on the song's harmonic structure and the feedback inherent in the network. \cite{judy2} We plan to explore the same through our experiments.
 \end{abstract}
 
 % no keywords
@@ -407,7 +295,7 @@ Appeal of a music composition depends to some extent on complex mathematical equ
 
 \section{Introduction}
 % no \IEEEPARstart
-Music is an extraordinarily appealing auditory sensation. The classification of musical styles can be infinite. In recent times there has been a growing trend towards fusion of two compositions. Usually highly skilled musicians mix different musical styles and compositions, to generate something that has best of both worlds. In this work we we try to combine different musical styles using deep learning techniques. Most of our work is centered around `midi-files' but can be easily extended to incorporate new formats.\\
+Music is an extraordinarily appealing auditory sensation and the classification of musical style can be virtually infinite. Since the dawn of music there has been a desire to fuse musical styles in different ways, taking either essential or superficial musical aspects of two or more compositions or performers. Usually highly skilled musicians mix different musical styles and compositions intuitively, creating a fusion of style that they themselves are satisfied with. In this work, we we try to combine different musical styles using deep learning techniques. All of the current work is performed using MIDI files but can be easily extended to incorporate new formats.\\
 
 The most straightforward way to generate music with with a recurrent neural network (RNN) is to use the network as a single step predictor. The network can be trained to predict notes at time $t+1$ conditioned on notes till time $t$ as inputs. After the training is completed, the network can be seeded with random initial inputs (mostly from training samples) to generate novel musical compositions using subsequent output generated as input for next generation. This note-by note approach was first examined by Bharucha \& Todd.\cite{todd,eck}\\
 
@@ -419,10 +307,19 @@ So we explore the viability of using LSTM recurrent neural networks for the same
 %I wish you the best of success.
 
 \section{Dataset}
-Describe the dataset here
+The dataset consists of transcribed jazz solos as found on the Jazzomat Research Project. Jazz as a genre offered several advantages: specific soloists often have repeated rhythmic and harmonic ideas that carry through different songs, jazz standards offered a predictable harmonic pallete with which to use, and transcribed jazz solos are often avaialble for free. Additionally, the solos that were chosen were those of monophonic instruments, like that of the saxophone or trumpet and unlike that of the piano or guitar, since these instruments play one note at a time. This made the extraction of rhytmic data immelsely easier and less complicated.
+
+In order to faciliate the largest datasets and given the stylistic choices specific to certain soloists, the files were grouped by soloist. This allowed us to easily maintain a repository for the harmonic, rhythmic, and dynamic information of a given soloist.
+
+
+There are, of course, certain caveats. Jazz standards, as a general principle, change key throughout the course of the tune. While this is fixed, the MIDI file format makes parsing this information on a temporal basis extremely difficult. It was therefore not including in the the final form of the preprocessed data.
 
 \subsection{Preprocessing}
-Describe the preprocessing here
+The biggest challenge of preprocessing was to somehow maintain the musical integrity of the data. This particular challenge proved to be too difficult to grapple with in the time allotted and the choice was made to simple normalize the data to render them song agnostic. That is, the representation of the data was not dependent on either the key, tempo, or other musical feature of the specific song.
+
+Preprocessing occured in two steps. First, from each individual MIDI file notes, rhythm, and velocities (amplitudes of notes) were extracted. Note and velocity information is extracted in a straightforward manner as the file contains these values directly. Rhythm, however, is prescribed indirectly through what are called 'note-on' and 'note-off' events that tell the MIDI engine when a note of a given pitch and velocity is to begin and when it is to end. This is further complicated by the fact that time in a MIDI file is given in ticks per beat, the value of which can vary across different MIDI files to give greater or lesser temporal resolution, and each note event is prescibed a delta time value, which is the number ticks that have elapsed since the most recent message. From the delta time value of a given note-off event and its corresponding note-on event, the duration, in ticks per beat, could be calculated. These values were then normalized such that they became tempo and ticks per beat agnostic. The result is a duration of a note that was a ratio of the ticks per beat value. The same type of normalization occured with notes, as well. All of the solos were transposed to the key of C, regardless of their original key. The notes were then further normalized into intervals of semitones thereby increasing the key indifference of the data.
+
+It is common knowledge that music is not a steady stream of sound; rather, it is comprised of both sound and silence. However, while it was fairly trivial to include rests in the preprocessed rhthmic data, the results from said data were unusable in a musically meaningful way. Therefore, the choice was made to not include rests in the data and thus, not include rests in the generated rhythmic data. This is an obstacle that would be needed to overcome in futher iterations.
 
 \subsection{Feature Engineering} \label{Feature Engineering}
 Describe the feature engineering here
@@ -550,7 +447,7 @@ We generate similar feature-label pairs from the musical composition. Then we us
 %\begin{figure}[!t]
 %\centering
 %\includegraphics[width=2.5in]{myfigure}
-% where an .eps filename suffix will be assumed under latex, 
+% where an .eps filename suffix will be assumed under latex,
 % and a .pdf suffix will be assumed for pdflatex; or what has been declared
 % via \DeclareGraphicsExtensions.
 %\caption{Simulation results for the network.}
@@ -566,7 +463,7 @@ We generate similar feature-label pairs from the musical composition. Then we us
 % The subfigure \label commands are set within each subfloat command,
 % and the \label for the overall figure must come after \caption.
 % \hfil is used as a separator to get equal spacing.
-% Watch out that the combined width of all the subfigures on a 
+% Watch out that the combined width of all the subfigures on a
 % line do not exceed the text width or a line break will occur.
 %
 %\begin{figure*}[!t]
@@ -623,7 +520,7 @@ We generate similar feature-label pairs from the musical composition. Then we us
 % in-text middle ("here") positioning is typically not used, but it
 % is allowed and encouraged for Computer Society conferences (but
 % not Computer Society journals). Most IEEE journals/conferences use
-% top floats exclusively. 
+% top floats exclusively.
 % Note that, LaTeX2e, unlike IEEE journals/conferences, places
 % footnotes above bottom floats. This can be corrected via the
 % \fnbelowfloat command of the stfloats package.
@@ -633,7 +530,9 @@ We generate similar feature-label pairs from the musical composition. Then we us
 We experimented the with learning the features of a musical composition as described in \ref{Feature Engineering} above. We have mainly utilized Keras \cite{keras} for training the neural networks.
 
 \section{Future Scope}
-Talk about feature extraction using FFT
+Talk about feature extraction using FFT. Talk about feature extration in a more musical sense (phrases, isolating harmonic areas, more musical representations of time)
+
+Attempts were also made to produce a quasi-time series set such that the sample values were the MIDI pitches, silence being -1, and each sample representing a point in time of the file. This had the advantage of encoding both the rhythmic and pitch information in the same set. However, using an LSTM on this yielded unusable results. Nonetheless, it is perhaps an avenue for future experiments.
 
 \section{Conclusion}
 The current work has demonstrated that recurrent neural networks (RNNs) in combination with long short term memory (LSTM) cells, has the capability to capture temporal dynamics of a musical composition. Although not precise reproduction but we achieved very similar reproduction of the certain features, when we seeded the network with beginning of time $t_0$ for a musical composition. Our motive in this paper was to focus on generative aspects of the musical composition so we seeded the network randomly which resulted in generation of different samples. The periodicity of feature patterns are preserved in such cases, but the the coordination information seems to be lost when we try recombination of the same.\\
@@ -722,5 +621,3 @@ Chollet Fran\c{c}ois and others, \emph{Keras} \url{https://github.com/fchollet/k
 
 % that's all folks
 \end{document}
-
-
