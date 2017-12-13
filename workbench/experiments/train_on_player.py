@@ -8,7 +8,7 @@ players = ["MilesDavis", "JohnColtrane", "OrnetteColeman", "CharlieParker"]
 memory = 15
 
 for player in players:
-  paths = glob('/home/roger/Documents/work/206_machineLearning/midi_rnn/midi/projectMIDI/data/parsed/players/{}/*'.format
+  paths = glob('/home/roger/Documents/work/206_machineLearning/midi_rnn/midi/projectMIDI/data/parsed/players/{}/*'.format(player))
   notes = []
   rhythms = []
   velocities = []
