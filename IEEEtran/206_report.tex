@@ -295,7 +295,7 @@ Appeal of a musical composition is almost exclusively subjective in that it is a
 
 \section{Introduction}
 % no \IEEEPARstart
-Music is an extraordinarily appealing auditory sensation and the classification of musical style can be virtually infinite. Since the dawn of music there has been a desire to fuse musical styles in different ways, taking either essential or superficial musical aspects of two or more compositions or performers. Usually highly skilled musicians mix different musical styles and compositions intuitively, creating a fusion of style that they themselves are satisfied with. In this work, we we try to combine different musical styles using deep learning techniques. All of the current work is performed using MIDI files but can be easily extended to incorporate new formats.\\
+Music is an extraordinarily appealing auditory sensation and the classification of musical style can be virtually infinite. Since the dawn of music there has been a desire to fuse musical styles in different ways, taking either essential or superficial musical aspects of two or more compositions or performers. Usually highly skilled musicians mix different musical styles and compositions intuitively, creating a fusion of style that they themselves are satisfied with. In this work, we we try to combine different musical styles using deep learning techniques. All of the current work is performed using MIDI files but can be easily extended to incorporate new formats. It should be noted, moreover, that musical style is used in a broad sense in that individual players within a single genre can have differing "styles".\\
 
 The most straightforward way to generate music with with a recurrent neural network (RNN) is to use the network as a single step predictor. The network can be trained to predict notes at time $t+1$ conditioned on notes till time $t$ as inputs. After the training is completed, the network can be seeded with random initial inputs (mostly from training samples) to generate novel musical compositions using subsequent output generated as input for next generation. This note-by note approach was first examined by Bharucha \& Todd.\cite{todd,eck}\\
 
@@ -304,6 +304,10 @@ A generic feed-forward neural network would not be a good fit at composing music
 So we explore the viability of using LSTM recurrent neural networks for the same and experiment with fusion of different musical styles. For this we extract features like notes, rhythm and amplitude from midi files as described in \ref{Feature Engineering}. We then pre-process it and pass it to a neural network. We train neural networks separately for each of the features. We then generate the chosen features from target musical style and then combine them to generate the final output result as described in \ref{Model description}. We then experiment with varying styles and describe out results in latter sections.
 
 \section{Dataset}
+The most important considerations in choosing a dataset were both musical and practical. Musically, the dataset had to be interesting enough to
+
+The choice to use MIDI files as our dataset file was one of practical considerations. Sound files, such as MP3 and WAV, capture the waveform of the sound and reproduce the sound as it was recorded or synthesized. The waveform itself contains no musically meanningful material without extensive processing, beat tracking, onset detection, frequency analysis, etc. Moreover, the analysis and extraction methods used on signals is often imprecise and typically of an entire song with all instruements playing simultaneoulsy. Extracting a single instrument from the texture and then accurately representing it quantitaively is extraordinarily difficult and creates additional difficulties of representing that information in a musically meaningful fashion.
+
 The dataset consists of transcribed jazz solos as found on the Jazzomat Research Project. Jazz as a genre offered several advantages: specific soloists often have repeated rhythmic and harmonic ideas that carry through different songs, jazz standards offered a predictable harmonic pallete with which to use, and transcribed jazz solos are often avaialble for free. Additionally, the solos that were chosen were those of monophonic instruments, like that of the saxophone or trumpet and unlike that of the piano or guitar, since these instruments play one note at a time. This made the extraction of rhytmic data immelsely easier and less complicated.
 
 In order to faciliate the largest datasets and given the stylistic choices specific to certain soloists, the files were grouped by soloist. This allowed us to easily maintain a repository for the harmonic, rhythmic, and dynamic information of a given soloist.
@@ -312,22 +316,26 @@ In order to faciliate the largest datasets and given the stylistic choices speci
 There are, of course, certain caveats. Jazz standards, as a general principle, change key throughout the course of the tune. While this is fixed, the MIDI file format makes parsing this information on a temporal basis extremely difficult. It was therefore not including in the the final form of the preprocessed data.
 
 \subsection{Preprocessing}
-The biggest challenge of preprocessing was to somehow maintain the musical integrity of the data. This particular challenge proved to be too difficult to grapple with in the time allotted and the choice was made to simple normalize the data to render them song agnostic. That is, the representation of the data was not dependent on either the key, tempo, or other musical feature of the specific song.
+The biggest challenge of preprocessing was to somehow maintain the musical integrity of the data we extracted. This particular challenge proved to be too difficult to grapple with in the time allotted and the choice was made to simple normalize the data to render them song agnostic. That is, the representation of the data was not dependent on either the key, tempo, or other musical feature of the specific song. Within the MIDI file itself, 'note' events, such as note-on and note-off govern the resulting sound and it is from these note events that features were extracted.
+
+
 
 Preprocessing occured in two steps. First, from each individual MIDI file notes, rhythm, and velocities (amplitudes of notes) were extracted. Note and velocity information is extracted in a straightforward manner as the file contains these values directly. Rhythm, however, is prescribed indirectly through what are called 'note-on' and 'note-off' events that tell the MIDI engine when a note of a given pitch and velocity is to begin and when it is to end. This is further complicated by the fact that time in a MIDI file is given in ticks per beat, the value of which can vary across different MIDI files to give greater or lesser temporal resolution, and each note event is prescibed a delta time value, which is the number ticks that have elapsed since the most recent message. From the delta time value of a given note-off event and its corresponding note-on event, the duration, in ticks per beat, could be calculated. These values were then normalized such that they became tempo and ticks per beat agnostic. The result is a duration of a note that was a ratio of the ticks per beat value. The same type of normalization occured with notes, as well. All of the solos were transposed to the key of C, regardless of their original key. The notes were then further normalized into intervals of semitones thereby increasing the key indifference of the data.
 
 It is common knowledge that music is not a steady stream of sound; rather, it is comprised of both sound and silence. However, while it was fairly trivial to include rests in the preprocessed rhthmic data, the results from said data were unusable in a musically meaningful way. Therefore, the choice was made to not include rests in the data and thus, not include rests in the generated rhythmic data. This is an obstacle that would be needed to overcome in futher iterations.
 
 \subsection{Feature Engineering} \label{Feature Engineering}
-Describe the feature engineering here
+In the first place, transcribed solos from a particular player were grouped together and each feature was grouped further such that all the harmonic information of all the solos of every song this player played was compiled into one feature set, rhtymic information into another, and velocity into a third.
 
 \subsubsection{Feature 1:Notes} \label{f1notes}
 Subsubsection text here.
 
-\subsubsection{Feature 1:Amplitude} \label{f2amp}
+Extracting, combining, and normalizing the notes in this way - that is, apart from harmony - rendered any notion of harmonic progression null. Even if an entire network were trained on one players repetoire on a single set of harmonic changes, we were not able to figure out a way in which to keep track of these changes in the order they occur in the song when sampling 
+
+\subsubsection{Feature 1:Rhythm} \label{f2rhythm}
 Subsubsection text here.
 
-\subsubsection{Feature 1:Rest} \label{f3rest}
+\subsubsection{Feature 1:Amplitude} \label{f3amplitude}
 Subsubsection text here.
 
 \section{Basic Architecture}
@@ -393,7 +401,7 @@ We generate similar feature-label pairs from the musical composition. Then we us
 \end{figure}
 
 \subsubsection{Model for amplitude}
-We train a LSTM recurrent neural network using the aplitudes extracted from musical composition as described in \ref{f2amp}. Here we use a sliding memory window of size $M$. We create training set by sliding the window over the entire interval and can be represented as follows:
+We train a LSTM recurrent neural network using the aplitudes extracted from musical composition as described in \ref{f2rhythm}. Here we use a sliding memory window of size $M$. We create training set by sliding the window over the entire interval and can be represented as follows:
 $$feature = {amp_{t},amp_{t+1},amp_{t+2},amp_{t+3},.....amp_{t+(M-1)}}$$
 $$label = {amp_{t+M}}$$
 
