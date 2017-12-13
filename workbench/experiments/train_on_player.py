@@ -5,10 +5,10 @@ from utils.ml_funcs import *
 from utils.midi_funcs import *
 
 players = ["MilesDavis", "JohnColtrane", "OrnetteColeman", "CharlieParker"]
-memory = 15
+memory = 20 # changed below
 
 for player in players:
-  paths = glob('/home/roger/Documents/work/206_machineLearning/midi_rnn/midi/projectMIDI/data/parsed/players/{}/*'.format(player))
+  paths = glob('/home/jlsundst/midi-rnn/midi/projectMIDI/data/parsed/players/{}/*'.format(player))
   notes = []
   rhythms = []
   velocities = []
@@ -25,15 +25,18 @@ for player in players:
   print ("Training on {}".format(player))
 
   print ("Training notes")
+  #memory = int(len(notes)*0.012)
   note_model = make_and_train(notes, memory)
   print ("Training rhythms")
+  #memory = int(len(rhythms)*0.012)
   rhythm_model = make_and_train(rhythms, memory)
   print ("Training velocities")
+  memory = int(len(velocities)*0.012)
   velocity_model = make_and_train(velocities, memory)
 
-  note_model.save('/home/roger/Documents/work/206_machineLearning/midi_rnn/midi/projectMIDI/models/{}_notes.h5'.format(player))
+  note_model.save('/home/jlsundst/midi-rnn/midi/projectMIDI/models/{}_notes.h5'.format(player))
   del note_model
-  rhythm_model.save('/home/roger/Documents/work/206_machineLearning/midi_rnn/midi/projectMIDI/models/{}_rhythms.h5'.format(player))
+  rhythm_model.save('/home/jlsundst/midi-rnn/midi/projectMIDI/models/{}_rhythms.h5'.format(player))
   del rhythm_model
-  velocity_model.save('/home/roger/Documents/work/206_machineLearning/midi_rnn/midi/projectMIDI/models/{}_velocities.h5'.format(player))
+  velocity_model.save('/home/jlsundst/midi-rnn/midi/projectMIDI/models/{}_velocities.h5'.format(player))
   del velocity_model

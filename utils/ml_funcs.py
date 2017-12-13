@@ -39,7 +39,7 @@ def make_and_train(data, memory=10):
   with tf.device('/gpu:0'):
     #model.fit(X, y, epochs=500, batch_size=128, callbacks=callbacks_list)
     model.fit(X, y, epochs=500, batch_size=32)
-
+    #model.fit(X, y, epochs=400, batch_size=64)
   return model
 
 def generate_date(model, seed, memory=10, length=100):
