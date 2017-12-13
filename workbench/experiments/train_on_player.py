@@ -1,20 +1,14 @@
 import numpy as np
 import os
-# from keras.models import Sequential
-# from keras.layers import Dense
-# from keras.layers import Dropout
-# from keras.layers import LSTM
-# from keras.callbacks import ModelCheckpoint
-# from keras.utils import np_utils
-# import tensorflow as tf
 from glob import glob
 from utils.ml_funcs import *
+from utils.midi_funcs import *
 
 players = ["MilesDavis", "JohnColtrane", "OrnetteColeman", "CharlieParker"]
-memory = 10
+memory = 15
 
 for player in players:
-  paths = glob('midi/projectMIDI/data/parsed/players/{}/*'.format(player))
+  paths = glob('/home/roger/Documents/work/206_machineLearning/midi_rnn/midi/projectMIDI/data/parsed/players/{}/*'.format
   notes = []
   rhythms = []
   velocities = []
@@ -22,6 +16,7 @@ for player in players:
   for path in paths:
     name = os.path.basename(path)
     these_notes, these_rhythms, these_velocities = list(parseMatrixFromFile(path))
+    these_notes = get_intervals(these_notes) # get intervals instead
 
     notes = notes + these_notes
     rhythms = rhythms + these_rhythms
@@ -36,9 +31,9 @@ for player in players:
   print ("Training velocities")
   velocity_model = make_and_train(velocities, memory)
 
-  note_model.save('midi/projectMIDI/models/{}_notes.h5'.format(player))
+  note_model.save('/home/roger/Documents/work/206_machineLearning/midi_rnn/midi/projectMIDI/models/{}_notes.h5'.format(player))
   del note_model
-  rhythm_model.save('midi/projectMIDI/models/{}_rhythms.h5'.format(player))
+  rhythm_model.save('/home/roger/Documents/work/206_machineLearning/midi_rnn/midi/projectMIDI/models/{}_rhythms.h5'.format(player))
   del rhythm_model
-  velocity_model.save('midi/projectMIDI/models/{}_velocities.h5'.format(player))
+  velocity_model.save('/home/roger/Documents/work/206_machineLearning/midi_rnn/midi/projectMIDI/models/{}_velocities.h5'.format(player))
   del velocity_model
