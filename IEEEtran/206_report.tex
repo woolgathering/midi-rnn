@@ -302,9 +302,6 @@ The most straightforward way to generate music with with a recurrent neural netw
 A generic feed-forward neural network would not be a good fit at composing music using the technique described above. The main reason behind this is the inability to memorize any information about the past, thereby not being able to keep track of variations \& periodicity of a song's  feature across time. In principle RNN does not suffer this limitation owing to its recurrent connections and hidden activation layers that may act memory elements, thereby exhibiting temporal behaviour. However they do not perform well at the task of modelling long duration temporal dynamics as studied by Mozer.\cite{mozer}, with most likely cause being the the problem of vanishing gradients assosciated with RNNs.\cite{hochreiter}\\
 
 So we explore the viability of using LSTM recurrent neural networks for the same and experiment with fusion of different musical styles. For this we extract features like notes, rhythm and amplitude from midi files as described in \ref{Feature Engineering}. We then pre-process it and pass it to a neural network. We train neural networks separately for each of the features. We then generate the chosen features from target musical style and then combine them to generate the final output result as described in \ref{Model description}. We then experiment with varying styles and describe out results in latter sections.
-% You must have at least 2 lines in the paragraph with the drop letter
-% (should never be an issue)
-%I wish you the best of success.
 
 \section{Dataset}
 The dataset consists of transcribed jazz solos as found on the Jazzomat Research Project. Jazz as a genre offered several advantages: specific soloists often have repeated rhythmic and harmonic ideas that carry through different songs, jazz standards offered a predictable harmonic pallete with which to use, and transcribed jazz solos are often avaialble for free. Additionally, the solos that were chosen were those of monophonic instruments, like that of the saxophone or trumpet and unlike that of the piano or guitar, since these instruments play one note at a time. This made the extraction of rhytmic data immelsely easier and less complicated.
@@ -362,13 +359,13 @@ The LSTM network is a significant departure from other networks in that it uses 
 \end{figure}
 
 \subsection{Model Description} \label{Model description}
-We have designed our system such that a separate recurrent neural network is being trained on each of the features extracted from a musical composition. We then generate the feature using a starting seed and then recombine them to create a musical harmony. For achieving fusion of different musical styles we have taken an approach wherein we generate the selected characteristic (say notes) of a composition $A$, and a different characteristic (say rest or pauses) of composition $B$ and so one. We then combine these features using a Generation Engine to recover a musical composition as shown in figure \ref{fig:figure9}
+We have designed our system such that a separate recurrent neural network is being trained on each of the features extracted from a soloists repetoire. We then generate the feature using a starting seed and then recombine them to create a new solo. To achieve a fusion of different musical styles we have taken an approach wherein we generate the selected characteristis, notes, of a composition $A$, and a different characteristic, rhythm, of composition $B$ and so on. We then combine these features using a Generation Engine to recover a solo as shown in figure \ref{fig:figure9}
 
 $$ Song_A = feature_A{1} + feature_A{2} + feature_A{3}$$
 $$ Song_B = feature_B{1} + feature_B{2} + feature_B{3}$$
 $$ Song_{Fusion} = feature_A{1} + feature_B{2} + feature_A{3}$$
 
-We first pass the music files through a feature extraction engine as described in \ref{Feature Engineering}. We then select the musical features that we are interested in combining from the music files. These features are then used to train the neural networks with a tunable memory parameter. Once trained these networks are used for generation of the learned features. These features are then passed through a Generation engine that works opposite to the Feature extraction, and combines the features to genrate a musical file.
+We first pass the music files through a feature extraction engine as described in \ref{Preprocessing}. We then select the musical features that we are interested in combining from the music files. These features are then used to train the neural networks with a tunable memory parameter. Once trained these networks are used for generation of the learned features. These features are then passed through a Generation engine that works opposite to the Feature extraction, and combines the features to genrate a musical file.
 
 \begin{figure}[h]
 \includegraphics[width=0.5\textwidth]{IEEEtran/2.PNG}
@@ -414,21 +411,21 @@ We generate similar feature-label pairs from the musical composition. Then we us
 \label{fig:figure4}
 \end{figure}
 
-\subsubsection{Model for Rests}
-We train a LSTM recurrent neural network using the notes extracted from musical composition as described in \ref{f1notes}. Here we use a sliding memory window of size $M$. We create training set by sliding the window over the entire interval and can be represented as follows:
-$$feature = {rest{t},rest_{t+1},rest_{t+2},rest_{t+3},.....rest_{t+(M-1)}}$$
-$$label = {rest_{t+M}}$$
+\subsubsection{Model for Velocities}
+We train a LSTM recurrent neural network using the velocities extracted from musical solo as described in \ref{f1notes}. Here we use a sliding memory window of size $M$. We create training set by sliding the window over the entire interval and can be represented as follows:
+$$feature = {velocity{t},velocity_{t+1},velocity_{t+2},velocity_{t+3},.....velocity_{t+(M-1)}}$$
+$$label = {velocity_{t+M}}$$
 
 We generate similar feature-label pairs from the musical composition. Then we use a recurrent LSTM network with 4 nodes. We use \texttt{mean squared error} as our loss function.
 \begin{figure}[h]
 \includegraphics[width=0.5\textwidth]{IEEEtran/rest_o.png}
-\caption{Time Variation of Original Rest}
+\caption{Time Variation of Original Velocity}
 \label{fig:figure5}
 \end{figure}
 
 \begin{figure}[h]
 \includegraphics[width=0.5\textwidth]{IEEEtran/rest_g.png}
-\caption{Time Variation of Generated Rest}
+\caption{Time Variation of Generated Velocity}
 \label{fig:figure6}
 \end{figure}
 % An example of a floating figure using the graphicx package.
