@@ -4,7 +4,7 @@ from glob import glob
 from utils.ml_funcs import *
 from utils.midi_funcs import *
 
-players = ["MilesDavis", "JohnColtrane", "OrnetteColeman", "CharlieParker"]
+players = ["JohnColtrane", "OrnetteColeman", "CharlieParker"]
 memory = 20 # changed below
 
 for player in players:
@@ -16,7 +16,7 @@ for player in players:
   for path in paths:
     name = os.path.basename(path)
     these_notes, these_rhythms, these_velocities = list(parseMatrixFromFile(path))
-    these_notes = get_intervals(these_notes) # get intervals instead
+    # these_notes = get_intervals(these_notes) # get intervals instead
 
     notes = notes + these_notes
     rhythms = rhythms + these_rhythms
