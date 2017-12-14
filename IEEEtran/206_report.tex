@@ -230,7 +230,7 @@ Email: jlsundst@ucsd.edu}
 \IEEEauthorblockN{Nakul Tiruviluamala}
 \IEEEauthorblockA{
 UCSD(Music)\\
-PID: FILLHERE\\
+PID: A5321500\\
 Email: ntiruvil@ucsd.edu}
 \and
 \IEEEauthorblockN{David Defilippo}
@@ -315,7 +315,7 @@ The decision to utilize midi led us to the Weimar Jazzomat Database. It is one o
 
 In order to facilitate the largest datasets and given the stylistic choices specific to certain soloists, the files were grouped by soloist. This allowed us to easily maintain a repository for the harmonic, rhythmic, and dynamic information of a given soloist. There are, of course, certain caveats. Jazz standards, as a general principle, change key throughout the course of the tune. Therefore, our recurrent neural networks produce music that is never reminiscent of a particular song but instead evocative of a musical artist in general. The resultant music might be called more “free” as a result. Additionally, the MIDI file format makes parsing information on a temporal basis extremely difficult. It was therefore not including in the the final form of the pre-processed data.\\
 
-\subsection{Preprocessing}
+\subsection{Preprocessing} \label{Preprocessing}
 The biggest challenge of pre-processing was to somehow maintain the musical integrity of the data we extracted. This particular challenge proved to be too difficult to grapple with in the time allotted and the choice was made to simple normalize the data to render them song agnostic. That is, the representation of the data was not dependent on either the key, tempo, or other musical feature of the specific song. Within the MIDI file itself, 'note' events, such as note-on and note-off govern the resulting sound and it is from these note events that features were extracted.\\
 
 \subsection{Feature Engineering} \label{Feature Engineering}
@@ -371,13 +371,13 @@ The LSTM network is a significant departure from other networks in that it uses 
 \end{figure}
 
 \subsection{Model Description} \label{Model description}
-We have designed our system such that a separate recurrent neural network is trained on each of the features extracted from a soloists repetoire. We then generate the feature using a starting seed and recombine them to create a new solo over an ambiguous harmonic structure. To achieve a fusion of diffePitrent musical styles we have taken an approach wherein we generate the selected characteristis, pitch for instance, of a particular player $A$, and a different characteristic, rhythm, of of a particular player $B$ and so on. We then combine these features using a Generation Engine to recover a solo as shown in figure \ref{fig:figure9}
+We have designed our system such that a separate recurrent neural network is trained on each of the features extracted from a soloists repetoire. We then generate the feature using a starting seed and recombine them to create a new solo over an ambiguous harmonic structure. To achieve a fusion of different musical styles we have taken an approach wherein we generate the selected characteristics, pitch for instance, of a particular player $A$, and a different characteristic, rhythm, of of a particular player $B$ and so on. We then combine these features using a Generation Engine to recover a solo as shown in figure \ref{fig:figure9}
 
 $$ Song_A = feature_A{1} + feature_A{2} + feature_A{3}$$
 $$ Song_B = feature_B{1} + feature_B{2} + feature_B{3}$$
 $$ Song_{Fusion} = feature_A{1} + feature_B{2} + feature_A{3}$$
 
-We first pass the music files through a feature extraction engine as described in \ref{Preprocessing}. We then select the musical features that we are interested in combining from the music files. These features are then used to train the neural networks with a tunable memory parameter. Once trained these networks are used for generation of the learned features. These features are then passed through a Generation engine that works opposite to the Feature extraction, and combines the features to genrate a musical file.
+We first pass the music files through a feature extraction engine as described in \ref{Preprocessing}. We then select the musical features that we are interested in combining from the music files. These features are then used to train the neural networks with a tunable memory parameter. Once trained these networks are used for generation of the learned features. These features are then passed through a Generation engine that works opposite to the Feature extraction, and combines the features to generate a musical file.
 
 \begin{figure}[h]
 \includegraphics[width=0.5\textwidth]{IEEEtran/2.PNG}
@@ -387,10 +387,10 @@ We first pass the music files through a feature extraction engine as described i
 
 \subsubsection{Model for Pitch}
 We train a LSTM recurrent neural network using the pitches extracted from musical composition as described in \ref{f1pitch}. Here we use a sliding memory window of size $M$. We create training set by sliding the window over the entire interval and can be represented as follows:
-$$feature = {note_{t},note_{t+1},...,note_{t+(M-1)}}$$
-$$label = {note_{t+M}}$$
+$$feature = {pitch_{t},pitch_{t+1},...,pitch_{t+(M-1)}}$$
+$$label = {pitch_{t+M}}$$
 
-We generate similar feature-label pairs from the soloist feature repetoire. Then we use a deep recurrent LSTM network with 256 nodes, one hidden layer, a dropout of 0.2 coupled with a \texttt{softmax} activation function. We use \texttt{categorical cross-entropy} as our loss function.\\
+We generate similar feature-label pairs from the soloist feature repertoire. Then we use a deep recurrent LSTM network with 256 nodes, one hidden layer, a dropout of 0.2 coupled with a \texttt{softmax} activation function. We use \texttt{categorical cross-entropy} as our loss function.\\
 
 \begin{figure}[h]
 \includegraphics[width=0.5\textwidth]{IEEEtran/notes_o.png}
@@ -405,39 +405,39 @@ We generate similar feature-label pairs from the soloist feature repetoire. Then
 \end{figure}
 
 \subsubsection{Model for Rhythm}
-We train a LSTM recurrent neural network using the rhythmic features extracted from a repetoire of a player as described in \ref{f2rhythm}. Here we use a sliding memory window of size $M$. We create training set by sliding the window over the entire interval and can be represented as follows:
-$$feature = {amplitude_{t},amplitude_{t+1},...,amplitude_{t+(M-1)}}$$
-$$label = {amplitude_{t+M}}$$
+We train a LSTM recurrent neural network using the rhythmic features extracted from a repertoire of a player as described in \ref{f2rhythm}. Here we use a sliding memory window of size $M$. We create training set by sliding the window over the entire interval and can be represented as follows:
+$$feature = {rhythm_{t},rhythm_{t+1},...,rhythm_{t+(M-1)}}$$
+$$label = {rhythm_{t+M}}$$
 
-We generate similar feature-label pairs from the soloists feature repetoire. Then we use a deep recurrent LSTM network with 256 nodes, one hidden layer, a dropout of 0.2 coupled with a \texttt{softmax} activation function. We use \texttt{categorical cross-entropy} as our loss function.\\
+We generate similar feature-label pairs from the soloists feature repertoire. Then we use a deep recurrent LSTM network with 256 nodes, one hidden layer, a dropout of 0.2 coupled with a \texttt{softmax} activation function. We use \texttt{categorical cross-entropy} as our loss function.\\
 
 \begin{figure}[h]
 \includegraphics[width=0.5\textwidth]{IEEEtran/amp_o.png}
-\caption{Time Variation of Original Amplitudes}
+\caption{Time Variation of Original Rhythms}
 \label{fig:figure3}
 \end{figure}
 
 \begin{figure}[h]
 \includegraphics[width=0.5\textwidth]{IEEEtran/amp_g.png}
-\caption{Time Variation of Generated Amplitudes}
+\caption{Time Variation of Generated Rhythms}
 \label{fig:figure4}
 \end{figure}
 
 \subsubsection{Model for Amplitude}
 We train a LSTM recurrent neural network using the velocities extracted from musical solo as described in \ref{f3amplitude}. Here we use a sliding memory window of size $M$. We create training set by sliding the window over the entire interval and can be represented as follows:
-$$feature = {velocity_{t},velocity_{t+1},.....velocity_{t+(M-1)}}$$
-$$label = {velocity_{t+M}}$$
+$$feature = {amplitude_{t},amplitude_{t+1},...,amplitude_{t+(M-1)}}$$
+$$label = {amplitude_{t+M}}$$
 
 We generate similar feature-label pairs from the musical composition. Then we use a recurrent LSTM network with 4 nodes. We use \texttt{mean squared error} as our loss function.
 \begin{figure}[h]
 \includegraphics[width=0.5\textwidth]{IEEEtran/rest_o.png}
-\caption{Time Variation of Original Velocity}
+\caption{Time Variation of Original Amplitude}
 \label{fig:figure5}
 \end{figure}
 
 \begin{figure}[h]
 \includegraphics[width=0.5\textwidth]{IEEEtran/rest_g.png}
-\caption{Time Variation of Generated Velocity}
+\caption{Time Variation of Generated Amplitude}
 \label{fig:figure6}
 \end{figure}
 
