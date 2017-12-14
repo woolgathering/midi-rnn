@@ -1,4 +1,4 @@
-import numpy as np
+# import numpy as np
 import os
 from glob import glob
 from utils.ml_funcs import *
@@ -27,16 +27,20 @@ for player in players:
   print ("Training notes")
   #memory = int(len(notes)*0.012)
   note_model = make_and_train(notes, memory)
+  note_model.save('/home/jlsundst/midi-rnn/midi/projectMIDI/models/{}_notes.h5'.format(player))
+  print ("Note model saved!")
+  del note_model
+  
   print ("Training rhythms")
   #memory = int(len(rhythms)*0.012)
   rhythm_model = make_and_train(rhythms, memory)
-  print ("Training velocities")
-  memory = int(len(velocities)*0.012)
-  velocity_model = make_and_train(velocities, memory)
-
-  note_model.save('/home/jlsundst/midi-rnn/midi/projectMIDI/models/{}_notes.h5'.format(player))
-  del note_model
   rhythm_model.save('/home/jlsundst/midi-rnn/midi/projectMIDI/models/{}_rhythms.h5'.format(player))
+  print ("Rhythm model saved!")
   del rhythm_model
+
+  print ("Training velocities")
+  # memory = int(len(velocities)*0.012)
+  velocity_model = make_and_train(velocities, memory)
   velocity_model.save('/home/jlsundst/midi-rnn/midi/projectMIDI/models/{}_velocities.h5'.format(player))
+  print ("Velocity model saved~")
   del velocity_model
