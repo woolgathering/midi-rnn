@@ -92,7 +92,7 @@ def features_to_midi_NORESTS(features, tempo, ticks_per_beat, out_path):
 
 
 # the size of the array returned is always the number of notes - 1
-def get_intervals(pitches):
+def get_intervals(pitches, transpose=0):
   intervals = []
   no_rests = []
   for pitch in pitches:
@@ -100,7 +100,8 @@ def get_intervals(pitches):
       no_rests.append(pitch)
   for i, pitch in enumerate(no_rests):
     if i>0:
-      intervals.append(no_rests[i] - no_rests[i-1])
+      interval = (no_rests[i] - no_rests[i-1]) + tranpose
+      intervals.append(interval)
   return (intervals)
 
 # trying to make phrases
