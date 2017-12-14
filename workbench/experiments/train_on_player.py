@@ -1,10 +1,9 @@
-# import numpy as np
 import os
 from glob import glob
 from utils.ml_funcs import *
 from utils.midi_funcs import *
 
-players = ["JohnColtrane", "OrnetteColeman", "CharlieParker"]
+players = ["CharlieParker"]
 memory = 20 # changed below
 
 for player in players:
