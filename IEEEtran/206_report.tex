@@ -300,11 +300,11 @@ Appeal of a musical composition is almost exclusively subjective in that it is a
 % no \IEEEPARstart
 Music is an extraordinarily appealing auditory sensation and the classification of musical style can be virtually infinite. Since the dawn of music there has been a desire to fuse musical styles in different ways, taking either essential or superficial musical aspects of two or more compositions or performers. Usually highly skilled musicians mix different musical styles and compositions intuitively, creating a fusion of style that they themselves are satisfied with. In this work, we we try to combine different musical styles using deep learning techniques. All of the current work is performed using MIDI files but can be easily extended to incorporate new formats. It should be noted, moreover, that musical style is used in a broad sense in that individual players within a single genre can have differing "styles".\\
 
-The most straightforward way to generate music with with a recurrent neural network (RNN) is to use the network as a single step predictor. The network can be trained to predict notes at time $t+1$ conditioned on notes till time $t$ as inputs. After the training is completed, the network can be seeded with random initial inputs (mostly from training samples) to generate novel musical compositions using subsequent output generated as input for next generation. This note-by note approach was first examined by Bharucha \& Todd.\cite{todd,eck}\\
+The most straightforward way to generate music with with a recurrent neural network (RNN) is to use the network as a single step predictor. The network can be trained to predict pitches at time $t+1$ conditioned on pitches until time $t$ as inputs. After the training is completed, the network can be seeded with random initial inputs (mostly from training samples) to generate novel musical compositions using subsequent output generated as input for next generation. This note-by note approach was first examined by Bharucha \& Todd.\cite{todd,eck}\\
 
 A generic feed-forward neural network would not be a good fit at composing music using the technique described above. The main reason behind this is the inability to memorize any information about the past, thereby not being able to keep track of variations \& periodicity of a song's  feature across time. In principle RNN does not suffer this limitation owing to its recurrent connections and hidden activation layers that may act memory elements, thereby exhibiting temporal behaviour. However they do not perform well at the task of modelling long duration temporal dynamics as studied by Mozer.\cite{mozer}, with most likely cause being the the problem of vanishing gradients associated with RNNs.\cite{hochreiter}\\
 
-So we explore the viability of using LSTM recurrent neural networks for the same and experiment with fusion of different musical styles. For this we extract features like notes, rhythm and amplitude from midi files as described in \ref{Feature Engineering}. We then pre-process it and pass it to a neural network. We train neural networks separately for each of the features. We then generate the chosen features from target musical style and then combine them to generate the final output result as described in \ref{Model description}. We then experiment with varying styles and describe out results in latter sections.
+So we explore the viability of using LSTM recurrent neural networks for the same and experiment with fusion of different musical styles. For this we extract features such as pitch, rhythm and amplitude from midi files as described in \ref{Feature Engineering}. We then pre-process it and pass it to a neural network. We train neural networks separately for each of the features. We then generate the chosen features from target musical style and then combine them to generate the final output result as described in \ref{Model description}. We then experiment with varying styles and describe out results in latter sections.
 
 \section{Dataset}
 The most important considerations in choosing a dataset were both musical and practical. Musically, the dataset had to be interesting enough to\\
@@ -326,14 +326,14 @@ Musical features are numerous and, depending on what one is seeking, can take ma
 MIDI files, on the other hand, contain in an easy to read format all the salient features we wanted access to in addition to being simple to parse. MIDI files are organized into 'tracks' which contain a single instrument, not necessarily monophonic. Additionally, a 'note' in MIDI-space is defined by two events: a 'note-on' and a 'note-off' that tell the MIDI engine when to start a note and when to terminate it. Each event contains three pieces of information: pitch, velocity, and delta time, which is the time elapsed between the last MIDI event and this event. Specifics on the extraction of pitch, rhythm, and amplitude are in sections \ref{f1pitch}, \ref{f2rhythm}, and \ref{f3amplitude}, respectively. The important thing to note, however, is that the the data of each feature of a particular player's repertoire was concatenated into a single set, such that all of player $p$'s harmonic information is contained in one set, all of their rhythmic information in another, and all the amplitude information in a third.\\
 
 \subsubsection{Feature 1: Pitch} \label{f1pitch}
-Extraction of pitch information from a MIDI file is fairly straightforward. Since each 'note' is comprised of two messages that give pitch, it is simple to extract the pitch information from a note-on event. MIDI notes exist in the range between 0 and 127, each number representing a single pitch in 12-tone equal temperament with 60 being middle C. In other words, each MIDI pitch number corresponds to a single key on the piano but extends beyond the piano range in both directions.\\
+Extraction of pitch information from a MIDI file is fairly straightforward. Since each 'note' is comprised of two messages that give pitch, it is simple to extract the pitch information from a note-on event. MIDI pitches exist in the range between 0 and 127, each number representing a single pitch in 12-tone equal temperament with 60 being middle C. In other words, each MIDI pitch number corresponds to a single key on the piano but extends beyond the piano range in both directions.\\
 
-For a given song, the entire track containing the desired instrument is parsed and pitches are saved in an array in the order in which they appear in the solo. Since a MIDI file also contains key information, each song was transposed to the key of C (harmonic changes throughout the song notwithstanding). The pitch sequences were then converted to sequences of semitone intervals to further refine the pitch information and render it harmony-agnostic resulting in an array of intervals that is the length of the number of notes in the song minus one. Extracting, combining, and normalizing the notes in this way - that is, apart from harmony - rendered any notion of harmonic progression null. Even if an entire network were trained on one players repertoire on a single set of harmonic changes, it was not possible to keep track of these changes in the order they occur in the song when sampling the model.\\
+For a given song, the entire track containing the desired instrument is parsed and pitches are saved in an array in the order in which they appear in the solo. Since a MIDI file also contains key information, each song was transposed to the key of C (harmonic changes throughout the song notwithstanding). The pitch sequences were then converted to sequences of semitone intervals to further refine the pitch information and render it harmony-agnostic resulting in an array of intervals that is the length of the number of notes in the song minus one. Extracting, combining, and normalizing the pitches in this way - that is, apart from harmony - rendered any notion of harmonic progression null. Even if an entire network were trained on one players repertoire on a single set of harmonic changes, it was not possible to keep track of these changes in the order they occur in the song when sampling the model.\\
 
 This process was repeated for each song of a particular player's solo in the dataset. The resulting interval sequences were then appended together to give a long sequence of intervals that is the length of the sum of all the notes in all the solos in the dataset minus the number of songs in that particular players' set of songs.\\
 
 \subsubsection{Feature 2: Rhythm} \label{f2rhythm}
-Rhythmic information can be deduced in a MIDI file by examining the delta time values of sequential MIDI events. Each MIDI message contains a time value (better understood as delta time) which is the time in ticks per beat that elapsed between the previous event and this event. That is, if a MIDI message contains a time value of 100, we know that this event or message occurs 100 ticks after the previous message. Using this information, it is relatively trivial to deduce the duration of a note or rest when complementary note-on and note-off events can be found. To be sure, if a note-on event of pitch $p$ occurs at time $t$ and the complementary note-off event occurs with a delta time value of 100, we know that the length of the note of pitch $p$ is 100 ticks long.\\
+Rhythmic information can be deduced in a MIDI file by examining the delta time values of sequential MIDI events. Each MIDI message contains a time value (better understood as delta time) which is the time in ticks per beat that elapsed between the previous event and this event. That is, if a MIDI message contains a time value of 100, we know that this event or message occurs 100 ticks after the previous message. Using this information, it is relatively trivial to deduce the duration of a note or rest when complementary note-on and note-off events can be found. To be sure, if a note-on event of pitch $p$ occurs at time $t$ and the complementary note-off event occurs with a delta time value of 100, the length of the note of pitch $p$ is 100 ticks long.\\
 
 In an important deviation from standard musical practice, the datasets did not include rests, or silences in a musical line. It is common knowledge that music is not a steady stream of sound; rather, it is comprised of both sound and silence. However, while it was fairly trivial to include rests in the pre-processed rhythmic data, the results from said data were unusable in a musically meaningful way. Therefore, the choice was made to not include rests in the data and thus, not include rests in the generated rhythmic data. This is an obstacle that would be needed to overcome in further iterations.\\
 
@@ -373,7 +373,7 @@ The LSTM network is a significant departure from other networks in that it uses 
 \end{figure}
 
 \subsection{Model Description} \label{Model description}
-We have designed our system such that a separate recurrent neural network is being trained on each of the features extracted from a soloists repetoire. We then generate the feature using a starting seed and then recombine them to create a new solo. To achieve a fusion of different musical styles we have taken an approach wherein we generate the selected characteristis, notes, of a composition $A$, and a different characteristic, rhythm, of composition $B$ and so on. We then combine these features using a Generation Engine to recover a solo as shown in figure \ref{fig:figure9}
+We have designed our system such that a separate recurrent neural network is trained on each of the features extracted from a soloists repetoire. We then generate the feature using a starting seed and recombine them to create a new solo over an ambiguous harmonic structure. To achieve a fusion of diffePitrent musical styles we have taken an approach wherein we generate the selected characteristis, pitch for instance, of a particular player $A$, and a different characteristic, rhythm, of of a particular player $B$ and so on. We then combine these features using a Generation Engine to recover a solo as shown in figure \ref{fig:figure9}
 
 $$ Song_A = feature_A{1} + feature_A{2} + feature_A{3}$$
 $$ Song_B = feature_B{1} + feature_B{2} + feature_B{3}$$
@@ -387,31 +387,31 @@ We first pass the music files through a feature extraction engine as described i
 \label{fig:figure9}
 \end{figure}
 
-\subsubsection{Model for Notes}
-We train a LSTM recurrent neural network using the notes extracted from musical composition as described in \ref{f1pitch}. Here we use a sliding memory window of size $M$. We create training set by sliding the window over the entire interval and can be represented as follows:
+\subsubsection{Model for Pitch}
+We train a LSTM recurrent neural network using the pitches extracted from musical composition as described in \ref{f1pitch}. Here we use a sliding memory window of size $M$. We create training set by sliding the window over the entire interval and can be represented as follows:
 $$feature = {note_{t},note_{t+1},...,note_{t+(M-1)}}$$
 $$label = {note_{t+M}}$$
 
-We generate similar feature-label pairs from the musical composition. Then we use a deep recurrent LSTM network with 256 nodes, one hidden layer, a dropout of 0.2 coupled with a \texttt{softmax} activation function. We use \texttt{categorical cross-entropy} as our loss function.\\
+We generate similar feature-label pairs from the soloist feature repetoire. Then we use a deep recurrent LSTM network with 256 nodes, one hidden layer, a dropout of 0.2 coupled with a \texttt{softmax} activation function. We use \texttt{categorical cross-entropy} as our loss function.\\
 
 \begin{figure}[h]
 \includegraphics[width=0.5\textwidth]{IEEEtran/notes_o.png}
-\caption{Time Variation of Original Notes}
+\caption{Time Variation of Original Pitches}
 \label{fig:figure1}
 \end{figure}
 
 \begin{figure}[h]
 \includegraphics[width=0.5\textwidth]{IEEEtran/notes_g.png}
-\caption{Time Variation of Generated Notes}
+\caption{Time Variation of Generated Pitches}
 \label{fig:figure2}
 \end{figure}
 
-\subsubsection{Model for amplitude}
-We train a LSTM recurrent neural network using the aplitudes extracted from musical composition as described in \ref{f2rhythm}. Here we use a sliding memory window of size $M$. We create training set by sliding the window over the entire interval and can be represented as follows:
+\subsubsection{Model for Rhythm}
+We train a LSTM recurrent neural network using the rhythmic features extracted from a repetoire of a player as described in \ref{f2rhythm}. Here we use a sliding memory window of size $M$. We create training set by sliding the window over the entire interval and can be represented as follows:
 $$feature = {amplitude_{t},amplitude_{t+1},...,amplitude_{t+(M-1)}}$$
 $$label = {amplitude_{t+M}}$$
 
-We generate similar feature-label pairs from the musical composition. Then we use a deep recurrent LSTM network with 256 nodes, one hidden layer, a dropout of 0.2 coupled with a \texttt{softmax} activation function. We use \texttt{categorical cross-entropy} as our loss function.\\
+We generate similar feature-label pairs from the soloists feature repetoire. Then we use a deep recurrent LSTM network with 256 nodes, one hidden layer, a dropout of 0.2 coupled with a \texttt{softmax} activation function. We use \texttt{categorical cross-entropy} as our loss function.\\
 
 \begin{figure}[h]
 \includegraphics[width=0.5\textwidth]{IEEEtran/amp_o.png}
@@ -425,8 +425,8 @@ We generate similar feature-label pairs from the musical composition. Then we us
 \label{fig:figure4}
 \end{figure}
 
-\subsubsection{Model for Velocities}
-We train a LSTM recurrent neural network using the velocities extracted from musical solo as described in \ref{f1pitch}. Here we use a sliding memory window of size $M$. We create training set by sliding the window over the entire interval and can be represented as follows:
+\subsubsection{Model for Amplitude}
+We train a LSTM recurrent neural network using the velocities extracted from musical solo as described in \ref{f3amplitude}. Here we use a sliding memory window of size $M$. We create training set by sliding the window over the entire interval and can be represented as follows:
 $$feature = {velocity_{t},velocity_{t+1},.....velocity_{t+(M-1)}}$$
 $$label = {velocity_{t+M}}$$
 
@@ -442,113 +442,19 @@ We generate similar feature-label pairs from the musical composition. Then we us
 \caption{Time Variation of Generated Velocity}
 \label{fig:figure6}
 \end{figure}
-% An example of a floating figure using the graphicx package.
-% Note that \label must occur AFTER (or within) \caption.
-% For figures, \caption should occur after the \includegraphics.
-% Note that IEEEtran v1.7 and later has special internal code that
-% is designed to preserve the operation of \label within \caption
-% even when the captionsoff option is in effect. However, because
-% of issues like this, it may be the safest practice to put all your
-% \label just after \caption rather than within \caption{}.
-%
-% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
-% option should be used if it is desired that the figures are to be
-% displayed while in draft mode.
-%
-%\begin{figure}[!t]
-%\centering
-%\includegraphics[width=2.5in]{myfigure}
-% where an .eps filename suffix will be assumed under latex,
-% and a .pdf suffix will be assumed for pdflatex; or what has been declared
-% via \DeclareGraphicsExtensions.
-%\caption{Simulation results for the network.}
-%\label{fig_sim}
-%\end{figure}
-
-% Note that the IEEE typically puts floats only at the top, even when this
-% results in a large percentage of a column being occupied by floats.
-
-
-% An example of a double column floating figure using two subfigures.
-% (The subfig.sty package must be loaded for this to work.)
-% The subfigure \label commands are set within each subfloat command,
-% and the \label for the overall figure must come after \caption.
-% \hfil is used as a separator to get equal spacing.
-% Watch out that the combined width of all the subfigures on a
-% line do not exceed the text width or a line break will occur.
-%
-%\begin{figure*}[!t]
-%\centering
-%\subfloat[Case I]{\includegraphics[width=2.5in]{box}%
-%\label{fig_first_case}}
-%\hfil
-%\subfloat[Case II]{\includegraphics[width=2.5in]{box}%
-%\label{fig_second_case}}
-%\caption{Simulation results for the network.}
-%\label{fig_sim}
-%\end{figure*}
-%
-% Note that often IEEE papers with subfigures do not employ subfigure
-% captions (using the optional argument to \subfloat[]), but instead will
-% reference/describe all of them (a), (b), etc., within the main caption.
-% Be aware that for subfig.sty to generate the (a), (b), etc., subfigure
-% labels, the optional argument to \subfloat must be present. If a
-% subcaption is not desired, just leave its contents blank,
-% e.g., \subfloat[].
-
-
-% An example of a floating table. Note that, for IEEE style tables, the
-% \caption command should come BEFORE the table and, given that table
-% captions serve much like titles, are usually capitalized except for words
-% such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to
-% and up, which are usually not capitalized unless they are the first or
-% last word of the caption. Table text will default to \footnotesize as
-% the IEEE normally uses this smaller font for tables.
-% The \label must come after \caption as always.
-%
-%\begin{table}[!t]
-%% increase table row spacing, adjust to taste
-%\renewcommand{\arraystretch}{1.3}
-% if using array.sty, it might be a good idea to tweak the value of
-% \extrarowheight as needed to properly center the text within the cells
-%\caption{An Example of a Table}
-%\label{table_example}
-%\centering
-%% Some packages, such as MDW tools, offer better commands for making tables
-%% than the plain LaTeX2e tabular which is used here.
-%\begin{tabular}{|c||c|}
-%\hline
-%One & Two\\
-%\hline
-%Three & Four\\
-%\hline
-%\end{tabular}
-%\end{table}
-
-
-% Note that the IEEE does not put floats in the very first column
-% - or typically anywhere on the first page for that matter. Also,
-% in-text middle ("here") positioning is typically not used, but it
-% is allowed and encouraged for Computer Society conferences (but
-% not Computer Society journals). Most IEEE journals/conferences use
-% top floats exclusively.
-% Note that, LaTeX2e, unlike IEEE journals/conferences, places
-% footnotes above bottom floats. This can be corrected via the
-% \fnbelowfloat command of the stfloats package.
-
 
 \section{Experiments \& Results}
 We experimented the with learning the features of a musical composition as described in \ref{Feature Engineering} above. We have mainly utilized Keras \cite{keras} for training the neural networks.
 
 \section{Future Scope}
-We have restricted our work to use of three features described in section \ref{Feature Engineering}. In general a musical composition can be used to extract many features some of which are spectral centroid, high frequency energy, high frequency content, spectral irregularity, spectral flux and running entropy, vector-based bandpass filter envelopes are Fourier transform with a sliding window.\cite{Jensen} These features can be used to enhance the learning and generation process.\\
+We have restricted our work to use of three features described in section \ref{Feature Engineering}. In general, a musical work contains many features which can be used in feature extraction. These include spectral centroid, high frequency energy, high frequency content, spectral irregularity, spectral flux and running entropy, vector-based bandpass filter envelopes are Fourier transform with a sliding window.\cite{Jensen} These features can be used to enhance the learning and generation process. It is important to note, though, that these measurements and features are only meaningful if they are taken from an original sound recording rather than a MIDI reproduction.\\
 
 Attempts were also made to produce a quasi-time series set such that the sample values were the MIDI pitches, silence being -1, and each sample representing a point in time of the file. This had the advantage of encoding both the rhythmic and pitch information in the same set. However, using an LSTM on this yielded unusable results. Nonetheless, it is perhaps an avenue for future experiments.\\
 
 \section{Conclusion}
 The current work has demonstrated that recurrent neural networks (RNNs) in combination with long short term memory (LSTM) cells, has the capability to capture temporal dynamics of a musical composition. Although not precise reproduction but we achieved very similar reproduction of the certain features, when we seeded the network with beginning of time $t_0$ for a musical composition. Our motive in this paper was to focus on generative aspects of the musical composition so we seeded the network randomly which resulted in generation of different samples. The periodicity of feature patterns are preserved in such cases, but the the coordination information seems to be lost when we try recombination of the same.\\
 
-\\This is in accordance with out expectations as we did not want an entire reproduction of the samples. We wanted the sensitivity of out network to be high, but also a good amount specificity so that the network could learn a generic style which can then be used in combination with counterpart features from fundamentally variant data points. Our experiments yielded good results where we just restricted the features to being notes, rest and amplitude as defined in the section.\ref{Feature Engineering} Although we would prefer keeping the model simple, we expect improved results by taking into account an increased number of uncorrelated features. On the basis of our experiments we can say that the technique presented here can definitely be used for fusion of different musical styles. We are eager to experiment with more complex architectures and variant styles to see how well out preliminary results evolve on tuning various parameters.
+\\This is in accordance with out expectations as we did not want an entire reproduction of the samples. We wanted the sensitivity of out network to be high, but also a good amount specificity so that the network could learn a generic style which could then be used in combination with counterpart features from fundamentally variant data points. Our experiments yielded good results when we restricted the features to being pitches, rhythms, and amplitude as defined in the section.\ref{Feature Engineering} Although we would prefer keeping the model simple, we expect improved results by taking into account an increased number of uncorrelated features. On the basis of our experiments we can say that the technique presented here can definitely be used for fusion of different musical styles when the characteristics of the style can be reduced to features such as pitch, rhythm, and amplitude. We are eager to experiment with more complex architectures and variant styles to see how well out preliminary results evolve on tuning various parameters.
 
 
 % conference papers do not normally have an appendix
