@@ -30,7 +30,7 @@ for player in players:
   note_model.save('/home/jlsundst/midi-rnn/midi/projectMIDI/models/{}_notes.h5'.format(player))
   print ("Note model saved!")
   del note_model
-  
+
   print ("Training rhythms")
   #memory = int(len(rhythms)*0.012)
   rhythm_model = make_and_train(rhythms, memory)
