@@ -34,7 +34,7 @@ def make_and_train(data, memory=10, checkpoint_path):
   model.add(Dropout(0.2))
   model.add(Dense(y.shape[1], activation='softmax'))
   model.compile(loss='categorical_crossentropy', optimizer='adam')
-  checkpoint_path = checkpoint_path + "weights-improvement-{epoch:02d}-{val_acc:.2f}.hdf5"
+  checkpoint_path = checkpoint_path + "weights-best.hdf5"
   checkpoint = ModelCheckpoint(checkpoint_path, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
   callbacks_list = [checkpoint]
 
