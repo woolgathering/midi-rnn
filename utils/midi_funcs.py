@@ -14,9 +14,9 @@ def simple_parse_midi(midifile, trackNum, tempo, transpose=0):
     if msg.type=='note_on':
       this_rhythm = get_rhythm(msg.time, midifile.ticks_per_beat) * -1 # negative since the last beat was a rest
       # if this_rhythm < -0.05: # eliminate short rests (non-existent rests)
-      rhythms.append(this_rhythm)
-      pitches.append(-1) # a rest, so no note
-      velocities.append(127) # no velocity
+      # rhythms.append(this_rhythm)
+      # pitches.append(-1) # a rest, so no note
+      # velocities.append(127) # no velocity
 
     if msg.type=='note_off':
       this_rhythm = get_rhythm(msg.time, midifile.ticks_per_beat) # negative since the last beat was a rest
@@ -168,6 +168,7 @@ def get_time_signature(midifile):
 
 # check key
 def get_key(midifile):
+  key = 0 # default to C
   for track in midifile.tracks:
     for msg in track:
       if msg.type=='key_signature':
