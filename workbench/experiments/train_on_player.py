@@ -9,8 +9,6 @@ memory = 20 # changed below
 
 for player in players:
   paths = glob('/home/jlsundst/midi-rnn/midi/projectMIDI/data/parsed/players/{}/*'.format(player))
-  checkpoint_path = '/home/jlsundst/midi-rnn/midi/projectMIDI/models/checkpoints/{}/'.format(player)
-  os.mkdir(checkpoint_path) # create the checkpoint dir
   notes = []
   rhythms = []
   velocities = []
@@ -28,6 +26,11 @@ for player in players:
 
   print ("Training notes")
   #memory = int(len(notes)*0.012)
+  try:
+    checkpoint_path = '/home/jlsundst/midi-rnn/midi/projectMIDI/models/checkpoints/{}/notes/'.format(player)
+    os.mkdir(checkpoint_path)
+  except:
+    pass
   note_model = make_and_train(notes, memory, checkpoint_path)
   note_model.save('/home/jlsundst/midi-rnn/midi/projectMIDI/models/{}_notes.h5'.format(player))
   print ("Note model saved!")
@@ -35,14 +38,24 @@ for player in players:
 
   print ("Training rhythms")
   #memory = int(len(rhythms)*0.012)
+  try:
+    checkpoint_path = '/home/jlsundst/midi-rnn/midi/projectMIDI/models/checkpoints/{}/rhythms/'.format(player)
+    os.mkdir(checkpoint_path)
+  except:
+    pass
   rhythm_model = make_and_train(rhythms, memory, checkpoint_path)
   rhythm_model.save('/home/jlsundst/midi-rnn/midi/projectMIDI/models/{}_rhythms.h5'.format(player))
   print ("Rhythm model saved!")
   del rhythm_model
 
   print ("Training velocities")
-  # memory = int(len(velocities)*0.012)
-  velocity_model = make_and_train(velocities, memory, checkpoint_path )
+  #memory = int(len(velocities)*0.012)
+  try:
+    checkpoint_path = '/home/jlsundst/midi-rnn/midi/projectMIDI/models/checkpoints/{}/velocities/'.format(player)
+    os.mkdir(checkpoint_path)
+  except:
+    pass
+  velocity_model = make_and_train(velocities, memory, checkpoint_path)
   velocity_model.save('/home/jlsundst/midi-rnn/midi/projectMIDI/models/{}_velocities.h5'.format(player))
   print ("Velocity model saved~")
   del velocity_model
