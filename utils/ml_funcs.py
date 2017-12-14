@@ -8,7 +8,7 @@ from keras.utils import np_utils
 import tensorflow as tf
 
 # create and train a model
-def make_and_train(data, memory=10):
+def make_and_train(data, memory=10, checkpoint_path):
   raw_data = []
   ini = 0
   end = ini + memory
@@ -34,11 +34,14 @@ def make_and_train(data, memory=10):
   model.add(Dropout(0.2))
   model.add(Dense(y.shape[1], activation='softmax'))
   model.compile(loss='categorical_crossentropy', optimizer='adam')
+  checkpoint_path = checkpoint_path + "weights-improvement-{epoch:02d}-{val_acc:.2f}.hdf5"
+  checkpoint = ModelCheckpoint(checkpoint_path, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
+  callbacks_list = [checkpoint]
 
   print ("Starting training...")
   with tf.device('/gpu:0'):
     #model.fit(X, y, epochs=500, batch_size=128, callbacks=callbacks_list)
-    model.fit(X, y, epochs=500, batch_size=32)
+    model.fit(X, y, epochs=500, batch_size=32, callbacks=callbacks_list)
     #model.fit(X, y, epochs=400, batch_size=64)
   return model
 
