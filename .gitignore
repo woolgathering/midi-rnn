@@ -3,6 +3,7 @@ testMIDI.mid
 testScript.py
 *.pdf # no PDFs
 */models/checkpoints/*
+/IEEEtran/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
